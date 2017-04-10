@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hbsd.mapper.business.TbLeaveMapper">
+    <!-- Result Map -->
+    <resultMap id="BaseResultMap" type="com.hbsd.bean.business.TbLeave">
+        <result column="id" property="id"/>
+        <result column="leave_userid" property="leave_userid"/>
+        <result column="leave_type" property="leave_type"/>
+        <result column="leave_context" property="leave_context"/>
+        <result column="leave_createdate" property="leave_createdate"/>
+        <result column="leave_begintime" property="leave_begintime"/>
+        <result column="leave_endtime" property="leave_endtime"/>
+        <result column="leave_hour" property="leave_hour"/>
+    </resultMap>
+    
+    <!-- tb_leave table all fields -->
+    <sql id="Base_Column_List">
+		tb_leave.`id`,tb_leave.`leave_userid`,tb_leave.`leave_type`,tb_leave.`leave_context`,tb_leave.`leave_createdate`,tb_leave.`leave_begintime`,tb_leave.`leave_endtime`,tb_leave.`leave_hour`,u.nickName,d.data_value,d.dict_id
+	</sql>
+    
+    
+    <!-- 查询条件 -->
+    <sql id="Example_Where_Clause">
+        where 1=1
+        <trim suffixOverrides=",">
+            <if test="id != null">
+                and tb_leave.`id` = #{id}
+            </if>
+            <if test="leave_userid != null">
+                and tb_leave.`leave_userid` = #{leave_userid}
+            </if>
+            <if test="leave_type != null">
+                and tb_leave.`leave_type` = #{leave_type}
+            </if>
+            <if test="leave_context != null and leave_context != ''">
+                and tb_leave.`leave_context` = #{leave_context}
+            </if>
+            <if test="leave_createdate != null and leave_createdate != ''">
+                and tb_leave.`leave_createdate` = #{leave_createdate}
+            </if>
+            <if test="leave_begintime != null and leave_begintime != ''">
+                and tb_leave.`leave_begintime` = #{leave_begintime}
+            </if>
+            <if test="leave_endtime != null and leave_endtime != ''">
+                and tb_leave.`leave_endtime` = #{leave_endtime}
+            </if>
+            <if test="leave_hour != null">
+                and tb_leave.`leave_hour` = #{leave_hour}
+            </if>
+        </trim>
+    </sql>
+    
+    
+    <!-- 插入记录 -->
+    <insert id="add" parameterType="Object">
+        <selectKey resultType="java.lang.Integer" order="AFTER"
+                   keyProperty="id">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into
+        tb_leave(id,leave_userid,leave_type,leave_context,leave_createdate,leave_begintime,leave_endtime,leave_hour)
+        values(#{id},#{leave_userid},#{leave_type},#{leave_context},#{leave_createdate},#{leave_begintime},#{leave_endtime},#{leave_hour})
+    </insert>
+    
+    <!-- 根据id，修改记录 -->
+    <update id="update" parameterType="Object">
+		update tb_leave set tb_leave.`leave_userid`=#{leave_userid},tb_leave.`leave_type`=#{leave_type},tb_leave.`leave_context`=#{leave_context},tb_leave.`leave_createdate`=#{leave_createdate},tb_leave.`leave_begintime`=#{leave_begintime},tb_leave.`leave_endtime`=#{leave_endtime},tb_leave.`leave_hour`=#{leave_hour} where tb_leave.`id`=#{id}
+	</update>
+    
+    <!-- 修改记录，只修改只不为空的字段 -->
+    <update id="updateBySelective" parameterType="Object">
+        update tb_leave set
+        <trim suffixOverrides=",">
+            <if test="leave_userid != null  ">
+                tb_leave.`leave_userid`=#{leave_userid},
+            </if>
+            <if test="leave_type != null  ">
+                tb_leave.`leave_type`=#{leave_type},
+            </if>
+            <if test="leave_context != null  and leave_context != '' ">
+                tb_leave.`leave_context`=#{leave_context},
+            </if>
+            <if test="leave_createdate != null  and leave_createdate != '' ">
+                tb_leave.`leave_createdate`=#{leave_createdate},
+            </if>
+            <if test="leave_begintime != null  and leave_begintime != '' ">
+                tb_leave.`leave_begintime`=#{leave_begintime},
+            </if>
+            <if test="leave_endtime != null  and leave_endtime != '' ">
+                tb_leave.`leave_endtime`=#{leave_endtime},
+            </if>
+            <if test="leave_hour != null  ">
+                tb_leave.`leave_hour`=#{leave_hour},
+            </if>
+        </trim>
+        where tb_leave.`id`=#{id}
+    </update>
+    
+    <!-- 删除记录 -->
+    <delete id="delete" parameterType="Object">
+		delete 	 from tb_leave where tb_leave.`id` = #{id}
+	</delete>
+    
+    <!-- 根据id查询 请假管理 -->
+    <select id="queryById" resultMap="BaseResultMap" parameterType="Object">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_leave
+        left join sys_user u on tb_leave.leave_userid = u.id
+        left join sys_dict_value d on tb_leave.leave_type = d.id
+        where tb_leave.`id` = #{id}
+    </select>
+    
+    <!-- 根据id查询 请假管理 -->
+    <select id="querycountid" resultMap="BaseResultMap" parameterType="Object">
+	    select sys_user.nickName,sys_user.id
+	    from sys_user
+        WHERE sys_user.id=#{id}
+	</select>
+    
+    <!-- 请假管理 列表总数 -->
+    <select id="queryByCount" resultType="java.lang.Integer"
+            parameterType="Object">
+        select count(*) from tb_leave
+        <include refid="Example_Where_Clause"/>
+    </select>
+    
+    <!-- 当日请假人数 -->
+    <select id="queryleave" resultType="java.lang.Integer"
+            parameterType="Object">
+		select count(1) AS count from tb_leave
+        WHERE tb_leave.leave_endtime>NOW()
+	</select>
+    
+    
+    <!-- 查询请假管理列表 -->
+    <select id="queryByList" resultMap="BaseResultMap"
+            parameterType="Object">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_leave
+        left join sys_user u on tb_leave.leave_userid = u.id
+        left join sys_dict_value d on tb_leave.leave_type = d.id
+        <include refid="Example_Where_Clause"/>
+        <if test="pager.orderCondition != null and pager.orderCondition != ''">
+            ${pager.orderCondition}
+        </if>
+        <if
+            test="pager.mysqlQueryCondition != null and pager.mysqlQueryCondition != ''">
+            ${pager.mysqlQueryCondition}
+        </if>
+    </select>
+    
+    
+    <!-- 查询请假管理列表 -->
+    <select id="querycount" resultMap="BaseResultMap"
+            parameterType="Object">
+	    select count(l.leave_begintime) as count,sys_user.nickName,sys_user.id,p.project_name,g.group_name
+	    from sys_user
+		LEFT JOIN tb_leave l ON sys_user.id=l.leave_userid
+    LEFT JOIN tb_project_user pu ON sys_user.id=pu.user_id
+    LEFT JOIN tb_project p ON pu.project_id=p.id
+    LEFT JOIN tb_group_user gu ON sys_user.id=gu.user_id
+    LEFT JOIN tb_group g ON gu.group_id=g.id
+group by sys_user.id
+	</select>
+    
+    
+    <!-- 查询每个人总过发过多少次晨报 -->
+    <select id="daycount" resultMap="BaseResultMap"
+            parameterType="Object">
+	    select count(tb_day.day_context) as count,u.nickName,tb_day.day_user_ud
+	    from tb_day
+		LEFT JOIN sys_user u on tb_day.day_user_ud=u.id
+		group by tb_day.day_user_ud
+	</select>
+    
+    
+    <!-- 计算每个人的晨报次数 -->
+    <select id="countday" resultMap="BaseResultMap"
+            parameterType="Object">
+	    select u.nickName,tb_day.day_context,tb_day.day_schedule_bar,tb_day.day_schedule
+	    from tb_day
+		LEFT JOIN sys_user u ON tb_day.day_user_ud=u.id
+WHERE tb_day.day_user_ud=#{id}
+	</select>
+    
+    
+    <select id="queryList" resultMap="BaseResultMap" parameterType="Object">
+SELECT
+    tl.id,
+	nickName,
+	data_value,
+	leave_context,
+	leave_begintime,
+	leave_endtime,
+	leave_hour
+FROM
+	tb_leave tl,
+	sys_user su,
+	sys_dict_value sd
+WHERE
+	 su.id=tl.leave_userid
+AND sd.id=tl.leave_type
+	</select>
+    
+    <!-- 根据id查询 请假管理 -->
+    <select id="queryId" resultMap="BaseResultMap" parameterType="Object">
+SELECT
+    tl.id,
+	su.nickName,
+	data_value,
+	leave_context,
+	leave_begintime,
+	leave_endtime,
+	leave_hour,
+	leave_userid,
+	leave_type
+FROM
+	tb_leave tl,
+	sys_user su,
+	sys_dict_value sd
+WHERE
+	 su.id=tl.leave_userid
+AND sd.id=tl.leave_type
+and tl.id=#{id}
+	</select>
+
+</mapper>   

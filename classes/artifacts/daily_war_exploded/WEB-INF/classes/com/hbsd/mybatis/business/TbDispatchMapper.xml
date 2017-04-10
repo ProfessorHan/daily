@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hbsd.mapper.business.TbDispatchMapper">
+	<!-- Result Map -->
+	<resultMap id="BaseResultMap" type="com.hbsd.bean.business.TbDispatch">
+				<result column="id" property="id" />
+				<result column="dispatch_plan_id" property="dispatch_plan_id" />
+				<result column="dispatch_project_id" property="dispatch_project_id" />
+				<result column="dispatch_user_id" property="dispatch_user_id" />
+				<result column="dispatch_context" property="dispatch_context" />
+				<result column="dispatch_expect_result" property="dispatch_expect_result" />
+				<result column="dispatch_level" property="dispatch_level" />
+				<result column="dispatch_createdate" property="dispatch_createdate" />
+				<result column="dispatch_do_user_id" property="dispatch_do_user_id" />
+				<result column="dispatch_expect_date" property="dispatch_expect_date" />
+				<result column="dispatch_expect_time" property="dispatch_expect_time" />
+				<result column="dispatch_do_begin_date" property="dispatch_do_begin_date" />
+				<result column="dispatch_reality_type" property="dispatch_reality_type" />
+				<result column="dispatch_reality_date" property="dispatch_reality_date" />
+				<result column="dispatch_reality_result" property="dispatch_reality_result" />
+				<result column="dispatch_delay_reason" property="dispatch_delay_reason" />
+				<result column="dispatch_delay_enddate" property="dispatch_delay_enddate" />
+				<result column="dispatch_enddate" property="dispatch_enddate" />
+			</resultMap>
+
+	<!-- tb_dispatch table all fields -->
+	<sql id="Base_Column_List">
+		tb_dispatch.`id`,tb_dispatch.`dispatch_plan_id`,tb_dispatch.`dispatch_project_id`,tb_dispatch.`dispatch_user_id`,tb_dispatch.`dispatch_context`,tb_dispatch.`dispatch_expect_result`,tb_dispatch.`dispatch_level`,tb_dispatch.`dispatch_createdate`,tb_dispatch.`dispatch_do_user_id`,tb_dispatch.`dispatch_expect_date`,tb_dispatch.`dispatch_expect_time`,tb_dispatch.`dispatch_do_begin_date`,tb_dispatch.`dispatch_reality_type`,tb_dispatch.`dispatch_reality_date`,tb_dispatch.`dispatch_reality_result`,tb_dispatch.`dispatch_delay_reason`,tb_dispatch.`dispatch_delay_enddate`,tb_dispatch.`dispatch_enddate`,a.nickName as anickName,tb_project.project_name,d.data_value as ddata_value,d.dict_id,b.nickName as bnickName,v.data_value as vdata_value,v.dict_id
+	</sql>
+
+
+	<!-- 查询条件 -->
+	<sql id="Example_Where_Clause">
+		where 1=1
+		<trim suffixOverrides=",">
+									<if test="id != null">
+				and tb_dispatch.`id` = #{id}
+			</if>
+									<if test="dispatch_plan_id != null">
+				and tb_dispatch.`dispatch_plan_id` = #{dispatch_plan_id}
+			</if>
+									<if test="dispatch_project_id != null">
+				and tb_dispatch.`dispatch_project_id` = #{dispatch_project_id}
+			</if>
+									<if test="dispatch_user_id != null">
+				and tb_dispatch.`dispatch_user_id` = #{dispatch_user_id}
+			</if>
+												<if test="dispatch_context != null and dispatch_context != ''">
+				and tb_dispatch.`dispatch_context` = #{dispatch_context}
+			</if>
+												<if test="dispatch_expect_result != null and dispatch_expect_result != ''">
+				and tb_dispatch.`dispatch_expect_result` = #{dispatch_expect_result}
+			</if>
+									<if test="dispatch_level != null">
+				and tb_dispatch.`dispatch_level` = #{dispatch_level}
+			</if>
+												<if test="dispatch_createdate != null and dispatch_createdate != ''">
+				and tb_dispatch.`dispatch_createdate` = #{dispatch_createdate}
+			</if>
+									<if test="dispatch_do_user_id != null">
+				and tb_dispatch.`dispatch_do_user_id` = #{dispatch_do_user_id}
+			</if>
+												<if test="dispatch_expect_date != null and dispatch_expect_date != ''">
+				and tb_dispatch.`dispatch_expect_date` = #{dispatch_expect_date}
+			</if>
+									<if test="dispatch_expect_time != null">
+				and tb_dispatch.`dispatch_expect_time` = #{dispatch_expect_time}
+			</if>
+												<if test="dispatch_do_begin_date != null and dispatch_do_begin_date != ''">
+				and tb_dispatch.`dispatch_do_begin_date` = #{dispatch_do_begin_date}
+			</if>
+									<if test="dispatch_reality_type != null">
+				and tb_dispatch.`dispatch_reality_type` = #{dispatch_reality_type}
+			</if>
+												<if test="dispatch_reality_date != null and dispatch_reality_date != ''">
+				and tb_dispatch.`dispatch_reality_date` = #{dispatch_reality_date}
+			</if>
+												<if test="dispatch_reality_result != null and dispatch_reality_result != ''">
+				and tb_dispatch.`dispatch_reality_result` = #{dispatch_reality_result}
+			</if>
+												<if test="dispatch_delay_reason != null and dispatch_delay_reason != ''">
+				and tb_dispatch.`dispatch_delay_reason` = #{dispatch_delay_reason}
+			</if>
+												<if test="dispatch_delay_enddate != null and dispatch_delay_enddate != ''">
+				and tb_dispatch.`dispatch_delay_enddate` = #{dispatch_delay_enddate}
+			</if>
+												<if test="dispatch_enddate != null and dispatch_enddate != ''">
+				and tb_dispatch.`dispatch_enddate` = #{dispatch_enddate}
+			</if>
+					</trim>
+	</sql>
+
+
+	<!-- 插入记录 -->
+	<insert id="add" parameterType="Object">
+		<selectKey resultType="java.lang.Integer" order="AFTER"
+			keyProperty="id">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		insert into tb_dispatch(id,dispatch_plan_id,dispatch_project_id,dispatch_user_id,dispatch_context,dispatch_expect_result,dispatch_level,dispatch_createdate,dispatch_do_user_id,dispatch_expect_date,dispatch_expect_time,dispatch_do_begin_date,dispatch_reality_type,dispatch_reality_date,dispatch_reality_result,dispatch_delay_reason,dispatch_delay_enddate,dispatch_enddate)
+ values(#{id},#{dispatch_plan_id},#{dispatch_project_id},#{dispatch_user_id},#{dispatch_context},#{dispatch_expect_result},#{dispatch_level},#{dispatch_createdate},#{dispatch_do_user_id},#{dispatch_expect_date},#{dispatch_expect_time},#{dispatch_do_begin_date},#{dispatch_reality_type},#{dispatch_reality_date},#{dispatch_reality_result},#{dispatch_delay_reason},#{dispatch_delay_enddate},#{dispatch_enddate})
+	</insert>
+
+	<!-- 根据id，修改记录 -->
+	<update id="update" parameterType="Object">
+		update tb_dispatch set tb_dispatch.`dispatch_plan_id`=#{dispatch_plan_id},tb_dispatch.`dispatch_project_id`=#{dispatch_project_id},tb_dispatch.`dispatch_user_id`=#{dispatch_user_id},tb_dispatch.`dispatch_context`=#{dispatch_context},tb_dispatch.`dispatch_expect_result`=#{dispatch_expect_result},tb_dispatch.`dispatch_level`=#{dispatch_level},tb_dispatch.`dispatch_createdate`=#{dispatch_createdate},tb_dispatch.`dispatch_do_user_id`=#{dispatch_do_user_id},tb_dispatch.`dispatch_expect_date`=#{dispatch_expect_date},tb_dispatch.`dispatch_expect_time`=#{dispatch_expect_time},tb_dispatch.`dispatch_do_begin_date`=#{dispatch_do_begin_date},tb_dispatch.`dispatch_reality_type`=#{dispatch_reality_type},tb_dispatch.`dispatch_reality_date`=#{dispatch_reality_date},tb_dispatch.`dispatch_reality_result`=#{dispatch_reality_result},tb_dispatch.`dispatch_delay_reason`=#{dispatch_delay_reason},tb_dispatch.`dispatch_delay_enddate`=#{dispatch_delay_enddate},tb_dispatch.`dispatch_enddate`=#{dispatch_enddate} where tb_dispatch.`id`=#{id}
+	</update>
+
+	<!-- 修改记录，只修改只不为空的字段 -->
+	<update id="updateBySelective" parameterType="Object">
+		update tb_dispatch set 
+	<trim  suffixOverrides="," >
+	<if test="dispatch_plan_id != null  ">
+		tb_dispatch.`dispatch_plan_id`=#{dispatch_plan_id},
+	</if>
+	<if test="dispatch_project_id != null  ">
+		tb_dispatch.`dispatch_project_id`=#{dispatch_project_id},
+	</if>
+	<if test="dispatch_user_id != null  ">
+		tb_dispatch.`dispatch_user_id`=#{dispatch_user_id},
+	</if>
+	<if test="dispatch_context != null  and dispatch_context != '' ">
+		tb_dispatch.`dispatch_context`=#{dispatch_context},
+	</if>
+	<if test="dispatch_expect_result != null  and dispatch_expect_result != '' ">
+		tb_dispatch.`dispatch_expect_result`=#{dispatch_expect_result},
+	</if>
+	<if test="dispatch_level != null  ">
+		tb_dispatch.`dispatch_level`=#{dispatch_level},
+	</if>
+	<if test="dispatch_createdate != null  and dispatch_createdate != '' ">
+		tb_dispatch.`dispatch_createdate`=#{dispatch_createdate},
+	</if>
+	<if test="dispatch_do_user_id != null  ">
+		tb_dispatch.`dispatch_do_user_id`=#{dispatch_do_user_id},
+	</if>
+	<if test="dispatch_expect_date != null  and dispatch_expect_date != '' ">
+		tb_dispatch.`dispatch_expect_date`=#{dispatch_expect_date},
+	</if>
+	<if test="dispatch_expect_time != null  ">
+		tb_dispatch.`dispatch_expect_time`=#{dispatch_expect_time},
+	</if>
+	<if test="dispatch_do_begin_date != null  and dispatch_do_begin_date != '' ">
+		tb_dispatch.`dispatch_do_begin_date`=#{dispatch_do_begin_date},
+	</if>
+	<if test="dispatch_reality_type != null  ">
+		tb_dispatch.`dispatch_reality_type`=#{dispatch_reality_type},
+	</if>
+	<if test="dispatch_reality_date != null  and dispatch_reality_date != '' ">
+		tb_dispatch.`dispatch_reality_date`=#{dispatch_reality_date},
+	</if>
+	<if test="dispatch_reality_result != null  and dispatch_reality_result != '' ">
+		tb_dispatch.`dispatch_reality_result`=#{dispatch_reality_result},
+	</if>
+	<if test="dispatch_delay_reason != null  and dispatch_delay_reason != '' ">
+		tb_dispatch.`dispatch_delay_reason`=#{dispatch_delay_reason},
+	</if>
+	<if test="dispatch_delay_enddate != null  and dispatch_delay_enddate != '' ">
+		tb_dispatch.`dispatch_delay_enddate`=#{dispatch_delay_enddate},
+	</if>
+	<if test="dispatch_enddate != null  and dispatch_enddate != '' ">
+		tb_dispatch.`dispatch_enddate`=#{dispatch_enddate},
+	</if>
+	</trim> where tb_dispatch.`id`=#{id}
+	</update>
+
+	<!-- 删除记录 -->
+	<delete id="delete" parameterType="Object">
+		delete 	 from tb_dispatch where tb_dispatch.`id` = #{id}
+	</delete>
+
+	<!-- 根据id查询 调用单表 -->
+	<select id="queryById" resultMap="BaseResultMap" parameterType="Object">
+		select <include refid="Base_Column_List" /> 
+	 from tb_dispatch
+	 	left join sys_user a on tb_dispatch.dispatch_user_id = a.id 
+		left join sys_user b on tb_dispatch.dispatch_do_user_id = b.id 
+		
+		left join tb_project on tb_dispatch.dispatch_project_id = tb_project.id
+		
+		left join sys_dict_value d on tb_dispatch.dispatch_plan_id = d.id 
+		left join sys_dict_value v on tb_dispatch.dispatch_reality_type =v.id 
+		
+	 where tb_dispatch.`id` = #{id}
+	</select>
+
+	<!-- 调用单表 列表总数 -->
+	<select id="queryByCount" resultType="java.lang.Integer"
+		parameterType="Object">
+		select count(1) from tb_dispatch
+		<include refid="Example_Where_Clause" />
+	</select>
+
+	<!-- 查询调用单表列表 -->
+	<select id="queryByList" resultMap="BaseResultMap"
+		parameterType="Object">
+		select
+		<include refid="Base_Column_List" />
+		from tb_dispatch
+		left join sys_user a on tb_dispatch.dispatch_user_id = a.id 
+		left join sys_user b on tb_dispatch.dispatch_do_user_id = b.id 
+		
+		left join tb_project on tb_dispatch.dispatch_project_id = tb_project.id
+		
+		left join sys_dict_value d on tb_dispatch.dispatch_plan_id = d.id 
+		left join sys_dict_value v on tb_dispatch.dispatch_reality_type =v.id 
+		
+		<include refid="Example_Where_Clause" />
+		order by dispatch_level
+		<if test="pager.orderCondition != null and pager.orderCondition != ''">
+			${pager.orderCondition}
+		</if>
+		<if
+			test="pager.mysqlQueryCondition != null and pager.mysqlQueryCondition != ''">
+			${pager.mysqlQueryCondition}
+		</if>
+		
+	</select>
+
+</mapper>   

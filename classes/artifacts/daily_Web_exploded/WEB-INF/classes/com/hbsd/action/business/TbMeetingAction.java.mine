@@ -1,0 +1,37 @@
+package com.hbsd.action.business;
+
+import com.hbsd.bean.business.TbMeeting;
+import com.hbsd.service.business.TbMeetingService;
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.util.List;
+
+/**
+ * Created by Administrator on 2017/3/11.
+ */
+
+@Controller
+@RequestMapping("/tbMeeting")
+public class TbMeetingAction {
+    private final static Logger log = Logger.getLogger(TbDayAction.class);
+    @Autowired
+    private TbMeetingService tbMeetingService;
+
+    @RequestMapping("/list")
+    public String list(Model model){
+        List<TbMeeting> tbMeetings = tbMeetingService.queryList();
+        model.addAttribute("tbMeetings",tbMeetings);
+        return "business/tbMeetingList";
+    }
+    @RequestMapping("/meetingContext.do")
+    public  String  context(Model model,int tbMeetingId){
+        TbMeeting meeting = tbMeetingService.queryById(tbMeetingId);
+        model.addAttribute("meetingContext",meeting.getMeetingContext());
+        model.addAttribute("meetingProblem",meeting.getTbMeetingProblem());
+        return  "business/tbMeetingContext";
+    }
+}

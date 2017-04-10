@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hbsd.mapper.sys.SysDictMapper">
+	<!-- Result Map -->
+	<resultMap id="BaseResultMap" type="com.hbsd.bean.sys.SysDict">
+		<result column="id" property="id" />
+		<result column="dict_name" property="dict_name" />
+		<result column="dict_key" property="dict_key" />
+		<result column="update_time" property="update_time" />
+		<result column="update_user" property="update_user" />
+	</resultMap>
+
+	<!-- sys_dict table all fields -->
+	<sql id="Base_Column_List">
+		sys_dict.`id`,sys_dict.`dict_name`,sys_dict.`dict_key`,sys_dict.`update_time`,sys_dict.`update_user`
+	</sql>
+
+
+	<!-- 查询条件 -->
+	<sql id="Example_Where_Clause">
+		where 1=1
+		<trim suffixOverrides=",">
+			<if test="id != null">
+				and sys_dict.`id` = #{id}
+			</if>
+			<if test="dict_name != null and dict_name != ''">
+				and (sys_dict.`dict_name` like CONCAT('%', #{dict_name},'%')
+				or sys_dict.`dict_key` like CONCAT('%', #{dict_name}, '%')
+				)
+			</if>
+			<if test="dict_key != null and dict_key != ''">
+				and sys_dict.`dict_key` = #{dict_key}
+			</if>
+			<if test="update_time != null">
+				and sys_dict.`update_time` = #{update_time}
+			</if>
+			<if test="update_user != null">
+				and sys_dict.`update_user` = #{update_user}
+			</if>
+		</trim>
+	</sql>
+
+
+	<!-- 插入记录 -->
+	<insert id="add" parameterType="Object">
+		<selectKey resultType="java.lang.Integer" order="AFTER"
+			keyProperty="id">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		insert into
+		sys_dict(id,dict_name,dict_key,update_time,update_user)
+		values(#{id},#{dict_name},#{dict_key},#{update_time},#{update_user})
+	</insert>
+
+	<!-- 根据id，修改记录 -->
+	<update id="update" parameterType="Object">
+		update sys_dict set
+		sys_dict.`dict_name`=#{dict_name},sys_dict.`dict_key`=#{dict_key},sys_dict.`update_time`=#{update_time},sys_dict.`update_user`=#{update_user}
+		where sys_dict.`id`=#{id}
+	</update>
+
+	<!-- 修改记录，只修改只不为空的字段 -->
+	<update id="updateBySelective" parameterType="Object">
+		update sys_dict set
+		<trim suffixOverrides=",">
+			<if test="dict_name != null  and dict_name != '' ">
+				sys_dict.`dict_name`=#{dict_name},
+			</if>
+			<if test="dict_key != null  and dict_key != '' ">
+				sys_dict.`dict_key`=#{dict_key},
+			</if>
+			<if test="update_time != null  ">
+				sys_dict.`update_time`=#{update_time},
+			</if>
+			<if test="update_user != null  ">
+				sys_dict.`update_user`=#{update_user},
+			</if>
+		</trim>
+		where sys_dict.`id`=#{id}
+	</update>
+
+	<!-- 删除记录 -->
+	<delete id="delete" parameterType="Object">
+		delete from sys_dict where
+		sys_dict.`id` = #{id}
+	</delete>
+
+	<!-- 根据id查询 数据字典表 -->
+	<select id="queryById" resultMap="BaseResultMap" parameterType="Object">
+		select
+		<include refid="Base_Column_List" />
+		from sys_dict where sys_dict.`id` = #{id}
+	</select>
+
+	<!-- 数据字典表 列表总数 -->
+	<select id="queryByCount" resultType="java.lang.Integer"
+		parameterType="Object">
+		select count(1) from sys_dict
+		<include refid="Example_Where_Clause" />
+	</select>
+
+	<!-- 查询数据字典表列表 -->
+	<select id="queryByList" resultMap="BaseResultMap"
+		parameterType="Object">
+		select
+		<include refid="Base_Column_List" />
+		from sys_dict
+		<include refid="Example_Where_Clause" />
+		<if test="pager.orderCondition != null and pager.orderCondition != ''">
+			${pager.orderCondition}
+		</if>
+		<if
+			test="pager.mysqlQueryCondition != null and pager.mysqlQueryCondition != ''">
+			${pager.mysqlQueryCondition}
+		</if>
+	</select>
+
+</mapper>   

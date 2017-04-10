@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc" xmlns:jee="http://www.springframework.org/schema/jee"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.1.xsd
+		http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-4.1.xsd
+		http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-4.1.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.1.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.1.xsd
+		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.1.xsd"
+	default-lazy-init="true">
+	<task:annotation-driven />
+	<!-- 时区 -->
+<!--	<bean id="timeZone" class="java.util.TimeZone" factory-method="getTimeZone">
+		<constructor-arg value="GMT+08:00" />
+	</bean>
+	<bean name="quartzUtil " class="com.hbsd.bean.job.QuartzUtil" />-->
+
+<!--
+	<bean name="quartzOne"
+		class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+		<property name="jobClass" value="com.hbsd.bean.job.QuartzJob" />
+		<property name="durability" value="true" />
+	</bean>
+-->
+
+
+
+<!--
+	<bean id="t_quartzOne"
+		class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="name" value="trigger1" />
+		<property name="group" value="tGroup1" />
+		<property name="jobDetail" ref="quartzOne" />
+		<property name="cronExpression" value="0/30 * * * * ?" />
+		<property name="timeZone" ref="timeZone" />
+		&lt;!&ndash; Quartz的misfire异常： 配置文件中有一个属性是misfireThreshold（单位为毫秒），用来指定调度引擎设置触发器超时的"临界值"。也就是说Quartz对于任务的超时是有容忍度的，
+			超过了这个容忍度才会判定misfire。比如说，某触发器设置为，10:15首次激活，然后每隔3秒激活一次，无限次重复。然而该任务每次运行需要10秒钟的时间。 
+			可见，每次任务的执行都会超时，那么究竟是否会引起misfire，就取决于misfireThreshold的值了。以第二次任务来说，它的运行时间已经比预定晚了7秒，那么如果misfireThreshold>7000， 
+			说明该偏差可容忍，则不算misfire，该任务立刻执行；如果misfireThreshold<=7000，则判定为misfire，根据相关配置策略进行处理。 
+			MISFIRE_INSTRUCTION_SMART_POLICY = 0 ——以错过的第一个频率时间立刻开始执行 ——重做错过的所有频率周期后 ——当下一次触发频率发生时间大于当前时间后，再按照正常的Cron频率依次执行 
+			MISFIRE_INSTRUCTION_FIRE_ONCE_NOW = 1 ——以当前时间为触发频率立刻触发一次执行 ——然后按照Cron频率依次执行 
+			MISFIRE_INSTRUCTION_DO_NOTHING = 2 ——不触发立即执行 ——等待下次Cron触发频率到达时刻开始按照Cron频率依次执行 &ndash;&gt;
+		<property name="misfireInstruction" value="2" />
+
+
+	</bean>
+-->
+
+	<!-- 任务2 <bean id="quartzTwo" class="org.springframework.scheduling.quartz.JobDetailFactoryBean"> 
+		<property name="jobClass"> <value>com.job.QuartzTwo</value> </property> <property 
+		name="name" value="job2"></property> <property name="group" value="jGroup2"></property> 
+		<property name="durability" value="true" /> </bean> <bean id="t_quartzTwo" 
+		class="org.springframework.scheduling.quartz.CronTriggerFactoryBean"> <property 
+		name="name" value="trigger2" /> <property name="group" value="tGroup2" /> 
+		<property name="jobDetail" ref="quartzTwo" /> <property name="cronExpression" 
+		value="0 0/1 * * * ?" /> <property name="timeZone" ref="timeZone" /> <property 
+		name="misfireInstruction" value="1" /> </bean> -->
+	<!-- 任务3 <bean id="quartzThree" class="org.springframework.scheduling.quartz.JobDetailFactoryBean"> 
+		<property name="jobClass"> <value>com.job.QuartzThree</value> </property> 
+		<property name="name" value="job3"></property> <property name="group" value="jGroup3"></property> 
+		<property name="durability" value="true" /> </bean> <bean id="t_quartzThree" 
+		class="org.springframework.scheduling.quartz.CronTriggerFactoryBean"> <property 
+		name="name" value="trigger3" /> <property name="group" value="tGroup3" /> 
+		<property name="jobDetail" ref="quartzThree" /> <property name="cronExpression" 
+		value="0 0/1 * * * ?" /> <property name="timeZone" ref="timeZone" /> <property 
+		name="misfireInstruction" value="1" /> </bean> -->
+<!--
+	<bean name="quartzScheduler"
+		class="org.springframework.scheduling.quartz.SchedulerFactoryBean"
+		lazy-init="false" autowire="no">
+		<property name="dataSource">
+			<ref bean="dataSource" />
+		</property>
+
+
+		<property name="quartzProperties">
+			<props>
+
+
+				&lt;!&ndash; <prop key="org.quartz.scheduler.instanceName">CRMscheduler</prop>
+					<prop key="org.quartz.scheduler.instanceId">AUTO</prop> &ndash;&gt;
+				&lt;!&ndash; 线程池配置 &ndash;&gt;
+				<prop key="org.quartz.threadPool.class">org.quartz.simpl.SimpleThreadPool</prop>
+				<prop key="org.quartdz.threadPool.threadCount">10</prop>
+				<prop key="org.quartz.threadPool.threadPriority">1</prop>
+				<prop key="org.quartz.jobStore.misfireThreshold">60000</prop>
+				&lt;!&ndash; JobStore 配置 &ndash;&gt;
+				<prop key="org.quartz.jobStore.class">org.quartz.impl.jdbcjobstore.JobStoreTX</prop>
+				<prop key=" org.quartz.jobStore.driverDelegateClass">org.quartz.impl.jdbcjobstore.StdJDBCDelegate</prop>
+				&lt;!&ndash; 集群配置 &ndash;&gt;
+				&lt;!&ndash; <prop key="org.quartz.jobStore.isClustered">true</prop> <prop key="org.quartz.jobStore.clusterCheckinInterval">15000</prop>
+					<prop key="org.quartz.jobStore.maxMisfiresToHandleAtATime">1</prop> &ndash;&gt;
+				&lt;!&ndash; 数据表设置 &ndash;&gt;
+				<prop key="org.quartz.jobStore.tablePrefix">qrtz_</prop>
+				&lt;!&ndash; <prop key="org.quartz.jobStore.dataSource">qzDS</prop> &ndash;&gt;
+				<prop key="org.quartz.jobStore.txIsolationLevelSerializable">false</prop>
+
+			</props>
+		</property>
+
+		&lt;!&ndash;必须的，QuartzScheduler 延时启动，应用启动完后 QuartzScheduler 再启动 &ndash;&gt;
+		&lt;!&ndash; 初始化之后延迟30秒启动scheduler &ndash;&gt;
+		<property name="startupDelay" value="10" />
+
+		<property name="applicationContextSchedulerContextKey" value="applicationContext" />
+
+		&lt;!&ndash; 定时任务是否随web启动 &ndash;&gt;
+		<property name="autoStartup" value="true" />
+
+		&lt;!&ndash; 注册触发器 &ndash;&gt;
+		<property name="triggers">
+			&lt;!&ndash; 调度清单 &ndash;&gt;
+			<list>
+
+				<ref bean="t_quartzOne" />
+				&lt;!&ndash; <ref bean="t_quartzTwo" /> <ref bean="t_quartzThree" /> &ndash;&gt;
+
+			</list>
+		</property>
+	</bean>
+-->
+
+
+
+
+</beans>

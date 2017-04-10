@@ -1,0 +1,321 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Created by Hanfei on 2017/3/20.
+the monthScore controller
+about monthScore business-->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hbsd.mapper.business.TbMonthScoreMapper">
+  <resultMap id="BaseResultMap" type="com.hbsd.bean.business.TbMonthScore">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="year" jdbcType="INTEGER" property="year" />
+    <result column="month" jdbcType="INTEGER" property="month" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="user_group_id" jdbcType="INTEGER" property="userGroupId" />
+    <result column="scoreuser_id" jdbcType="INTEGER" property="scoreuserId" />
+    <result column="score_date" jdbcType="TIMESTAMP" property="scoreDate" />
+    <result column="score_status" jdbcType="INTEGER" property="scoreStatus" />
+    <result column="job_quality" jdbcType="INTEGER" property="jobQuality" />
+    <result column="work_attitude" jdbcType="INTEGER" property="workAttitude" />
+    <result column="team_spirit" jdbcType="INTEGER" property="teamSpirit" />
+    <result column="code_management" jdbcType="INTEGER" property="codeManagement" />
+    <result column="personal_development" jdbcType="INTEGER" property="personalDevelopment" />
+    <result column="design_idea" jdbcType="INTEGER" property="designIdea" />
+    <result column="project_control" jdbcType="INTEGER" property="projectControl" />
+    <result column="dept_contribution" jdbcType="INTEGER" property="deptContribution" />
+    <result column="team_management" jdbcType="INTEGER" property="teamManagement" />
+    <result column="product_quality" jdbcType="INTEGER" property="productQuality" />
+    <result column="submit_status" jdbcType="INTEGER" property="submitStatus" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, year, month, user_id, user_group_id, scoreuser_id, score_date, score_status, 
+    job_quality, work_attitude, team_spirit, code_management, personal_development, design_idea, 
+    project_control, dept_contribution, team_management, product_quality, submit_status
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_month_score
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from tb_month_score
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.hbsd.bean.business.TbMonthScore">
+    insert into tb_month_score (id, year, month, 
+      user_id, user_group_id, scoreuser_id, 
+      score_date, score_status, job_quality, 
+      work_attitude, team_spirit, code_management, 
+      personal_development, design_idea, project_control, 
+      dept_contribution, team_management, product_quality, 
+      submit_status)
+    values (#{id,jdbcType=INTEGER}, #{year,jdbcType=INTEGER}, #{month,jdbcType=INTEGER}, 
+      #{userId,jdbcType=INTEGER}, #{userGroupId,jdbcType=INTEGER}, #{scoreuserId,jdbcType=INTEGER}, 
+      #{scoreDate,jdbcType=TIMESTAMP}, #{scoreStatus,jdbcType=INTEGER}, #{jobQuality,jdbcType=INTEGER}, 
+      #{workAttitude,jdbcType=INTEGER}, #{teamSpirit,jdbcType=INTEGER}, #{codeManagement,jdbcType=INTEGER}, 
+      #{personalDevelopment,jdbcType=INTEGER}, #{designIdea,jdbcType=INTEGER}, #{projectControl,jdbcType=INTEGER}, 
+      #{deptContribution,jdbcType=INTEGER}, #{teamManagement,jdbcType=INTEGER}, #{productQuality,jdbcType=INTEGER}, 
+      #{submitStatus,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hbsd.bean.business.TbMonthScore">
+    insert into tb_month_score
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="year != null">
+        year,
+      </if>
+      <if test="month != null">
+        month,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="userGroupId != null">
+        user_group_id,
+      </if>
+      <if test="scoreuserId != null">
+        scoreuser_id,
+      </if>
+      <if test="scoreDate != null">
+        score_date,
+      </if>
+      <if test="scoreStatus != null">
+        score_status,
+      </if>
+      <if test="jobQuality != null">
+        job_quality,
+      </if>
+      <if test="workAttitude != null">
+        work_attitude,
+      </if>
+      <if test="teamSpirit != null">
+        team_spirit,
+      </if>
+      <if test="codeManagement != null">
+        code_management,
+      </if>
+      <if test="personalDevelopment != null">
+        personal_development,
+      </if>
+      <if test="designIdea != null">
+        design_idea,
+      </if>
+      <if test="projectControl != null">
+        project_control,
+      </if>
+      <if test="deptContribution != null">
+        dept_contribution,
+      </if>
+      <if test="teamManagement != null">
+        team_management,
+      </if>
+      <if test="productQuality != null">
+        product_quality,
+      </if>
+      <if test="submitStatus != null">
+        submit_status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="year != null">
+        #{year,jdbcType=INTEGER},
+      </if>
+      <if test="month != null">
+        #{month,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="userGroupId != null">
+        #{userGroupId,jdbcType=INTEGER},
+      </if>
+      <if test="scoreuserId != null">
+        #{scoreuserId,jdbcType=INTEGER},
+      </if>
+      <if test="scoreDate != null">
+        #{scoreDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="scoreStatus != null">
+        #{scoreStatus,jdbcType=INTEGER},
+      </if>
+      <if test="jobQuality != null">
+        #{jobQuality,jdbcType=INTEGER},
+      </if>
+      <if test="workAttitude != null">
+        #{workAttitude,jdbcType=INTEGER},
+      </if>
+      <if test="teamSpirit != null">
+        #{teamSpirit,jdbcType=INTEGER},
+      </if>
+      <if test="codeManagement != null">
+        #{codeManagement,jdbcType=INTEGER},
+      </if>
+      <if test="personalDevelopment != null">
+        #{personalDevelopment,jdbcType=INTEGER},
+      </if>
+      <if test="designIdea != null">
+        #{designIdea,jdbcType=INTEGER},
+      </if>
+      <if test="projectControl != null">
+        #{projectControl,jdbcType=INTEGER},
+      </if>
+      <if test="deptContribution != null">
+        #{deptContribution,jdbcType=INTEGER},
+      </if>
+      <if test="teamManagement != null">
+        #{teamManagement,jdbcType=INTEGER},
+      </if>
+      <if test="productQuality != null">
+        #{productQuality,jdbcType=INTEGER},
+      </if>
+      <if test="submitStatus != null">
+        #{submitStatus,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hbsd.bean.business.TbMonthScore">
+    update tb_month_score
+    <set>
+      <if test="year != null">
+        year = #{year,jdbcType=INTEGER},
+      </if>
+      <if test="month != null">
+        month = #{month,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="userGroupId != null">
+        user_group_id = #{userGroupId,jdbcType=INTEGER},
+      </if>
+      <if test="scoreuserId != null">
+        scoreuser_id = #{scoreuserId,jdbcType=INTEGER},
+      </if>
+      <if test="scoreDate != null">
+        score_date = #{scoreDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="scoreStatus != null">
+        score_status = #{scoreStatus,jdbcType=INTEGER},
+      </if>
+      <if test="jobQuality != null">
+        job_quality = #{jobQuality,jdbcType=INTEGER},
+      </if>
+      <if test="workAttitude != null">
+        work_attitude = #{workAttitude,jdbcType=INTEGER},
+      </if>
+      <if test="teamSpirit != null">
+        team_spirit = #{teamSpirit,jdbcType=INTEGER},
+      </if>
+      <if test="codeManagement != null">
+        code_management = #{codeManagement,jdbcType=INTEGER},
+      </if>
+      <if test="personalDevelopment != null">
+        personal_development = #{personalDevelopment,jdbcType=INTEGER},
+      </if>
+      <if test="designIdea != null">
+        design_idea = #{designIdea,jdbcType=INTEGER},
+      </if>
+      <if test="projectControl != null">
+        project_control = #{projectControl,jdbcType=INTEGER},
+      </if>
+      <if test="deptContribution != null">
+        dept_contribution = #{deptContribution,jdbcType=INTEGER},
+      </if>
+      <if test="teamManagement != null">
+        team_management = #{teamManagement,jdbcType=INTEGER},
+      </if>
+      <if test="productQuality != null">
+        product_quality = #{productQuality,jdbcType=INTEGER},
+      </if>
+      <if test="submitStatus != null">
+        submit_status = #{submitStatus,jdbcType=INTEGER},
+      </if>
+      <if test="sumScore != null">
+        sum_score = #{sumScore,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hbsd.bean.business.TbMonthScore">
+    update tb_month_score
+    set year = #{year,jdbcType=INTEGER},
+      month = #{month,jdbcType=INTEGER},
+      user_id = #{userId,jdbcType=INTEGER},
+      user_group_id = #{userGroupId,jdbcType=INTEGER},
+      scoreuser_id = #{scoreuserId,jdbcType=INTEGER},
+      score_date = #{scoreDate,jdbcType=TIMESTAMP},
+      score_status = #{scoreStatus,jdbcType=INTEGER},
+      job_quality = #{jobQuality,jdbcType=INTEGER},
+      work_attitude = #{workAttitude,jdbcType=INTEGER},
+      team_spirit = #{teamSpirit,jdbcType=INTEGER},
+      code_management = #{codeManagement,jdbcType=INTEGER},
+      personal_development = #{personalDevelopment,jdbcType=INTEGER},
+      design_idea = #{designIdea,jdbcType=INTEGER},
+      project_control = #{projectControl,jdbcType=INTEGER},
+      dept_contribution = #{deptContribution,jdbcType=INTEGER},
+      team_management = #{teamManagement,jdbcType=INTEGER},
+      product_quality = #{productQuality,jdbcType=INTEGER},
+      submit_status = #{submitStatus,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="selectCountByTime" resultType="int">
+    SELECT count(id) FROM tb_month_score ts where ts.year=#{year} AND ts.month=#{month}
+  </select>
+
+  <sql id="Base_Column_List2">
+    ts.id as id,
+    year as year,
+    month as month,
+    user_id as userId,
+    user_group_id userGroupId,
+    scoreuser_id scoreuserId,
+    score_date scoreDate,
+    score_status scoreStatus,
+    job_quality jobQuality,
+    work_attitude workAttitude,
+    team_spirit teamSpirit,
+    code_management codeManagement,
+    personal_development personalDevelopment,
+    design_idea designIdea,
+    project_control projectControl,
+    dept_contribution deptContribution,
+    team_management teamManagement,
+    product_quality productQuality,
+    submit_status submitStatus,
+    su1.nickName userName,
+    su2.nickName scoreUserName,
+    tg.group_name userGroupName,
+    sum_score sumScore
+
+  </sql>
+
+  <select id="selectListByTime" resultType="com.hbsd.bean.business.TbMonthScore">
+    SELECT
+    <include refid="Base_Column_List2" />
+    FROM tb_month_score ts
+    LEFT JOIN sys_user su1 ON su1.id = ts.user_id
+    LEFT JOIN sys_user su2 ON su2.id = ts.scoreuser_id
+    LEFT JOIN tb_group tg ON tg.id = ts.user_group_id
+    WHERE ts.year=#{year} AND ts.month=#{month}
+    ORDER BY ts.user_id
+  </select>
+
+
+  <select id="selectById" resultType="com.hbsd.bean.business.TbMonthScore">
+    SELECT
+    <include refid="Base_Column_List2" />
+    FROM tb_month_score ts
+    LEFT JOIN sys_user su1 ON su1.id = ts.user_id
+    LEFT JOIN sys_user su2 ON su2.id = ts.scoreuser_id
+    LEFT JOIN tb_group tg ON tg.id = ts.user_group_id
+    WHERE ts.id=#{id}
+
+  </select>
+
+
+</mapper>

@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hbsd.mapper.business.TbPlanMapper">
+    <!-- Result Map -->
+    <resultMap id="BaseResultMap" type="com.hbsd.bean.business.TbPlan">
+        <result column="id" property="id"/>
+        <result column="plan_project_id" property="plan_project_id"/>
+        <result column="plan_user_id" property="plan_user_id"/>
+        <result column="plan_type" property="plan_type"/>
+        <result column="plan_context_id" property="plan_context_id"/>
+        <result column="plan_expect_enddate" property="plan_expect_enddate"/>
+
+    </resultMap>
+
+    <!-- tb_plan table all fields -->
+    <sql id="Base_Column_List">
+		tb_plan.`id`,tb_plan.`plan_project_id`,tb_plan.`plan_user_id`,tb_plan.`plan_type`,tb_plan.`plan_context_id`,u.nickName as managername,p.project_name,d.data_value as manager,d.dict_id,c.plan_user_ud,c.plan_user_type,c.plan_task,c.plan_expect_result,c.plan_expect_enddate,c.plan_expect_time,c.plan_reality_enddate,c.plan_reality_time,c.plan_reality_type,c.plan_reality_result,sdv.data_value as dept,su.nickName as deptname
+	</sql>
+
+    <resultMap id="BaseResultMap2" type="com.hbsd.bean.business.TbPlanQuery">
+        <id column="plan_id"  property="id"/>
+        <result column="plan_project_id" property="plan_project_id"/>
+        <result column="plan_user_id" property="plan_user_id"/>
+        <result column="plan_type" property="plan_type"/>
+        <result column="plan_context_id" property="plan_context_id"/>
+        <result column="plan_expect_enddate" property="plan_expect_enddate"/>
+        <result column="plan_create_time" property="creatTime"/>
+        <result column="plan_project_id" property="plan_project_id"/>
+        <result column="project_name" property="project_name"/>
+        <collection property="tbPlanContexts" ofType="com.hbsd.bean.business.TbPlanContext">
+            <id column="id" property="id" />
+            <result column="plan_id" property="plan_id" />
+            <result column="plan_user_ud" property="plan_user_ud" />
+            <result column="plan_user_type" property="plan_user_type" />
+            <result column="plan_task" property="plan_task" />
+            <result column="plan_expect_result" property="plan_expect_result" />
+            <result column="plan_expect_enddate" property="plan_expect_enddate" />
+            <result column="plan_expect_time" property="plan_expect_time" />
+            <result column="plan_reality_enddate" property="plan_reality_enddate" />
+            <result column="plan_reality_time" property="plan_reality_time" />
+            <result column="plan_reality_type" property="plan_reality_type" />
+            <result column="plan_reality_result" property="plan_reality_result" />
+            <!--<result column="plan_status" property="planStatus"/>-->
+            <result column="nickName" property="nickName"/>
+            <result column="data_value" property="data_value"/>
+            <result column="plan_self_fine" property="plan_self_fine" />
+            <result column="plan_owner_fine" property="plan_owner_fine" />
+            <result column="plan_problem" property="plan_problem"/>
+            <result column="plan_self_fine" property="plan_self_fine" />
+            <result column="plan_owner_fine" property="plan_owner_fine" />
+            <result column="plan_problem" property="plan_problem"/>
+        </collection>
+    </resultMap>
+
+
+    <!-- 查询条件 -->
+    <sql id="Example_Where_Clause">
+        where 1=1
+        <trim suffixOverrides=",">
+            <if test="id != null">
+                and tb_plan.`id` = #{id}
+            </if>
+            <if test="plan_project_id != null">
+                and tb_plan.`plan_project_id` = #{plan_project_id}
+                and tb_plan.`project_name` like '%#{project_name}%'
+            </if>
+            <if test="plan_user_id != null">
+                and tb_plan.`plan_user_id` = #{plan_user_id}
+            </if>
+            <if test="plan_type != null">
+                and tb_plan.`plan_type` = #{plan_type}
+            </if>
+            <if test="plan_type != null">
+                and tb_plan.`plan_context_id` = #{plan_context_id}
+            </if>
+        </trim>
+    </sql>
+
+
+    <!-- 插入记录 -->
+    <insert id="add" parameterType="Object">
+        <selectKey resultType="java.lang.Integer" order="AFTER"
+                   keyProperty="id">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into tb_plan(id,plan_project_id,plan_user_id,plan_type,plan_context_id,plan_create_time,plan_expect_enddate,plan_name,plan_create_year,plan_create_month,plan_create_week)
+        values(#{id},#{plan_project_id},#{plan_user_id},#{plan_type},#{plan_context_id},#{creatTime},STR_TO_DATE(#{plan_expect_enddate},'%Y-%m-%d'),#{planName},#{plan_create_year},#{plan_create_month},#{plan_create_week})
+    </insert>
+
+    <!-- 根据id，修改记录 -->
+    <update id="update" parameterType="Object">
+		update tb_plan set tb_plan.`plan_project_id`=#{plan_project_id},tb_plan.`plan_user_id`=#{plan_user_id},tb_plan.`plan_type`=#{plan_type},tb_plan.`plan_context_id`=#{plan_context_id}
+		where tb_plan.`id`=#{id}
+	</update>
+
+    <!-- 修改记录，只修改只不为空的字段 -->
+    <update id="updateBySelective" parameterType="Object">
+        update tb_plan set
+        <trim suffixOverrides=",">
+            <if test="plan_project_id != null  ">
+                tb_plan.`plan_project_id`=#{plan_project_id},
+            </if>
+            <if test="plan_user_id != null  ">
+                tb_plan.`plan_user_id`=#{plan_user_id},
+            </if>
+            <if test="plan_type != null  ">
+                tb_plan.`plan_type`=#{plan_type},
+            </if>
+            <if test="plan_context_id != null  ">
+                tb_plan.`plan_context_id`=#{plan_context_id},
+            </if>
+            <if test="planStatus != null  ">
+                tb_plan.`plan_status`=#{planStatus},
+            </if>
+            <if test="planName!=null">
+                tb_plan.plan_name = #{planName}
+            </if>
+        </trim>
+        where tb_plan.`id`=#{id}
+    </update>
+
+    <!-- 删除记录 -->
+    <delete id="delete" parameterType="Object">
+		delete tb_plan.*	 from tb_plan
+		where tb_plan.`id` = #{id}
+	</delete>
+
+    <!-- 根据id查询 计划总结表 -->
+    <select id="queryById" resultMap="BaseResultMap" parameterType="Object">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_plan
+        left join sys_user u on tb_plan.plan_user_id = u.id
+
+        left join tb_project p on tb_plan.plan_project_id = p.id
+
+        left join sys_dict_value d on tb_plan.plan_type = d.id
+
+        left join tb_plan_context c on tb_plan.plan_context_id = c.id
+
+        left join sys_dict_value sdv on c.plan_user_type = sdv.id
+
+        left join sys_user su on c.plan_user_ud = su.id
+        where tb_plan.`id` = #{id}
+    </select>
+
+    <!-- 计划总结表 列表总数 -->
+    <select id="queryByCount" resultType="java.lang.Integer"
+            parameterType="Object">
+        select count(1) from tb_plan
+        <include refid="Example_Where_Clause"/>
+    </select>
+
+    <!-- 查询计划总结表列表 -->
+    <select id="queryByList" resultMap="BaseResultMap"
+            parameterType="Object">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_plan
+        left join sys_user u on tb_plan.plan_user_id = u.id
+
+        left join tb_project p on tb_plan.plan_project_id = p.id
+
+        left join sys_dict_value d on tb_plan.plan_type = d.id
+
+        left join tb_plan_context c on tb_plan.plan_context_id = c.id
+
+        left join sys_dict_value sdv on c.plan_user_type = sdv.id
+
+        left join sys_user su on c.plan_user_ud = su.id
+        <!-- left join sys_dict_value v on tb_plan_context.plan_user_type = v.id -->
+        <!-- 		left join tb_project_user user on tb_plan.plan_project_id = user.project_id -->
+        <include refid="Example_Where_Clause"/>
+        <if test="pager.orderCondition != null and pager.orderCondition != ''">
+            ${pager.orderCondition}
+        </if>
+        <if
+                test="pager.mysqlQueryCondition != null and pager.mysqlQueryCondition != ''">
+            ${pager.mysqlQueryCondition}
+        </if>
+    </select>
+
+    <select id="queryStatus" resultType="int" parameterType="int">
+        select plan_status from tb_plan where id=#{value}
+    </select>
+
+    <select id="queryPlans" resultMap="BaseResultMap2">
+        SELECT
+	pro.id plan_project_id,pro.project_name,tp.id plan_id,pc.*,tp.*
+FROM
+	tb_plan_context pc
+LEFT JOIN tb_plan tp ON pc.plan_id = tp.id
+LEFT JOIN tb_project pro on pro.id=tp.plan_project_id
+WHERE
+	pc.plan_user_ud = 1
+    </select>
+
+    <select id="queryById2" resultType="com.hbsd.bean.business.TbPlan">
+    SELECT
+	id,
+	plan_project_id,
+	plan_user_id,
+	plan_type,
+	plan_context_id,
+	plan_status planStatus,
+	plan_create_time creatTime,
+	plan_expect_enddate,
+	plan_name planName,
+	plan_create_year,
+	plan_create_week,
+	plan_create_month
+FROM
+	tb_plan
+where id = #{planId}
+    </select>
+    <update id="updatePlanChangeContext">
+        UPDATE tb_plan_context
+        SET defer_content = #{planChange},context_defer = 3
+        WHERE id = #{contextId}
+    </update>
+</mapper>

@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hbsd.mapper.business.TbProjectUserMapper">
+	<!-- Result Map -->
+	<resultMap id="BaseResultMap" type="com.hbsd.bean.business.TbProjectUser">
+				<result column="id" property="id" />
+				<result column="user_id" property="user_id" />
+				<result column="project_id" property="project_id" />
+				<result column="user_type" property="user_type" />
+			</resultMap>
+
+	<!-- tb_project_user table all fields -->
+	<sql id="Base_Column_List">
+		tb_project_user.`id`,tb_project_user.`user_id`,tb_project_user.`project_id`,tb_project_user.`user_type`,u.nickName,p.project_name,p.project_type
+	</sql>
+	<sql id="Basa">
+		tb_project_user.`id`,tb_project_user.`user_id`,tb_project_user.`project_id`,tb_project_user.`user_type`,u.nickName,p.project_name,p.project_type
+	</sql>
+	<sql id="Column">
+		tb_project_user.`id`,tb_project_user.`user_id`,tb_project_user.`project_id`,tb_project_user.`user_type`,u.nickName,p.project_name,p.project_type,pc.plan_reality_time,plan.plan_type,pc.plan_reality_enddate,pc.plan_user_ud,pc.plan_reality_type
+	</sql>
+
+	<!-- 查询条件 -->
+	<sql id="Example_Where_Clause">
+		where 1=1
+		<trim suffixOverrides=",">
+									<if test="id != null">
+				and tb_project_user.`id` = #{id}
+			</if>
+									<if test="user_id != null">
+				and tb_project_user.`user_id` = #{user_id}
+			</if>
+									<if test="project_id != null">
+				and tb_project_user.`project_id` = #{project_id}
+			</if>
+									<if test="user_type != null">
+				and tb_project_user.`user_type` = #{user_type}
+			</if>
+
+					</trim>
+	</sql>
+
+
+	<!-- 插入记录 -->
+	<insert id="add" parameterType="Object">
+		<selectKey resultType="java.lang.Integer" order="AFTER"
+			keyProperty="id">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		insert into tb_project_user(id,user_id,project_id,user_type)
+ values(#{id},#{user_id},#{project_id},#{user_type})
+	</insert>
+
+	<!-- 根据id，修改记录 -->
+	<update id="update" parameterType="Object">
+		update tb_project_user set tb_project_user.`user_id`=#{user_id},tb_project_user.`project_id`=#{project_id},tb_project_user.`user_type`=#{user_type} where tb_project_user.`id`=#{id}
+	</update>
+
+	<!-- 修改记录，只修改只不为空的字段 -->
+	<update id="updateBySelective" parameterType="Object">
+		update tb_project_user set 
+	<trim  suffixOverrides="," >
+	<if test="user_id != null  ">
+		tb_project_user.`user_id`=#{user_id},
+	</if>
+	<if test="project_id != null  ">
+		tb_project_user.`project_id`=#{project_id},
+	</if>
+	<if test="user_type != null  ">
+		tb_project_user.`user_type`=#{user_type},
+	</if>
+	</trim> where tb_project_user.`id`=#{id}
+	</update>
+
+	<!-- 删除记录 -->
+	<delete id="delete" parameterType="Object">
+		delete 	 from tb_project_user where tb_project_user.`project_id` = #{project_id}
+	</delete>
+
+	<!-- 根据id查询 项目用户管理 -->
+	<select id="queryById" resultMap="BaseResultMap" parameterType="Object">
+		select <include refid="Base_Column_List" /> 
+	 from tb_project_user 
+	 	left join sys_user u on tb_project_user.user_id = u.id
+		left join tb_project p on tb_project_user.project_id = p.id
+		
+		left join tb_plan plan on tb_project_user.project_id = plan.plan_project_id
+		left join tb_plan_context pc on plan.plan_context_id = pc.id
+	 where tb_project_user.`id` = #{id}
+	</select>
+
+	<!-- 项目用户管理 列表总数 -->
+	<select id="queryByCount" resultType="java.lang.Integer"
+		parameterType="Object">
+		select count(1) from tb_project_user
+		<include refid="Example_Where_Clause" />
+	</select>
+
+	<!-- 查询项目用户管理列表 -->
+	<select id="queryByList" resultMap="BaseResultMap"
+		parameterType="Object">
+		select
+		<include refid="Base_Column_List" />
+		from tb_project_user
+		left join sys_user u on tb_project_user.user_id = u.id
+		left join tb_project p on tb_project_user.project_id = p.id
+		<include refid="Example_Where_Clause" />               
+		<if test="pager.orderCondition != null and pager.orderCondition != ''">
+			${pager.orderCondition}
+		</if>
+		<if
+			test="pager.mysqlQueryCondition != null and pager.mysqlQueryCondition != ''">
+			${pager.mysqlQueryCondition}
+		</if>
+	</select>
+	
+	
+	
+	<!-- 查询部门统计列表 -->
+	<select id="querylist" resultMap="BaseResultMap"
+		parameterType="Object">
+		select
+		<include refid="Column" />
+		from tb_project_user
+		left join sys_user u on tb_project_user.user_id = u.id
+		left join tb_project p on tb_project_user.project_id = p.id
+		left join tb_plan plan on tb_project_user.project_id = plan.plan_project_id
+		left join tb_plan_context pc on plan.plan_context_id = pc.id      
+		<include refid="Example_Where_Clause" />     
+		<if test="pager.orderCondition != null and pager.orderCondition != ''">
+			${pager.orderCondition}
+		</if>
+		<if
+			test="pager.mysqlQueryCondition != null and pager.mysqlQueryCondition != ''">
+			${pager.mysqlQueryCondition}
+		</if>
+	</select>
+
+<!-- 查询项目用户管理列表 -->
+	<select id="list" resultMap="BaseResultMap"
+		parameterType="Object">
+		select count(*) from tb_project_user 
+		left join tb_leave l on tb_project_user.user_id = l.leave_userid
+		where tb_project_user.id=#{id}
+    </select>
+
+<!-- 根据id查询 项目用户管理 -->
+	<select id="queryid" resultMap="BaseResultMap" parameterType="Object">
+		select <include refid="Basa" /> 
+	 from tb_project_user 
+	 	left join sys_user u on tb_project_user.user_id = u.id
+		left join tb_project p on tb_project_user.project_id = p.id
+	 where tb_project_user.`id` = #{id}
+	</select>
+
+	<select id="query" resultMap="BaseResultMap"
+		parameterType="Object">
+		select
+		<include refid="Basa" />
+		from tb_project_user
+	 	left join sys_user u on tb_project_user.user_id = u.id
+		left join tb_project p on tb_project_user.project_id = p.id
+		<include refid="Example_Where_Clause" />               
+		<if test="pager.orderCondition != null and pager.orderCondition != ''">
+			${pager.orderCondition}
+		</if>
+		<if
+			test="pager.mysqlQueryCondition != null and pager.mysqlQueryCondition != ''">
+			${pager.mysqlQueryCondition}
+		</if>
+	</select>
+
+
+
+</mapper>   

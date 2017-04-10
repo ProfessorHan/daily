@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hbsd.mapper.business.TbDayMapper">
+    <!-- Result Map -->
+    <resultMap id="BaseResultMap" type="com.hbsd.bean.business.TbDay">
+        <result column="id" property="id"/>
+        <result column="day_user_ud" property="day_user_ud"/>
+        <result column="day_project_id" property="day_project_id"/>
+        <result column="day_context" property="day_context"/>
+        <result column="day_schedule_context" property="day_schedule_context"/>
+        <result column="day_schedule_bar" property="day_schedule_bar"/>
+        <result column="day_createtime" property="day_createtime"/>
+    </resultMap>
+
+    <!-- tb_day table all fields -->
+    <sql id="Base_Column_List">
+		tb_day.`id`,tb_day.`day_createtime`,tb_day.`day_user_ud`,tb_day.`day_project_id`,tb_day.`day_context`,tb_day.`day_schedule_context`,tb_day.`day_schedule_bar`,u.nickName,p.project_name,p.project_manager,p.id as pid
+	</sql>
+    <sql id="tbday_Column_List">
+		tb_day.`id`,tb_day.`day_user_ud`,u.nickName,p.project_name,c.day_context,c.day_schedule_context,c.day_schedule_bar
+	</sql>
+
+    <!-- 查询条件 -->
+    <sql id="Example_Where_Clause">
+        where 1=1
+        <trim suffixOverrides=",">
+            <if test="id != null">
+                and tb_day.`id` = #{id}
+            </if>
+            <if test="day_user_ud != null">
+                and tb_day.`day_user_ud` = #{day_user_ud}
+            </if>
+            <if test="day_project_id != null">
+                and tb_day.`day_project_id` = #{day_project_id}
+            </if>
+            <if test="day_context != null and day_context != ''">
+                and ( tb_day.`day_context` like #{day_context}
+                  or u.nickName like #{day_context}
+                or p.project_name like #{day_context}
+                )
+            </if>
+            <if test="day_schedule_context != null and day_schedule_context != ''">
+                and tb_day.`day_schedule_context` = #{day_schedule_context}
+            </if>
+            <if test="day_schedule_bar != null and day_schedule_bar != ''">
+                and tb_day.`day_schedule_bar` = #{day_schedule_bar}
+            </if>
+            <if test="day_createtime != null and day_createtime != ''">
+                and tb_day.`day_createtime` like #{day_createtime}
+            </if>
+        </trim>
+    </sql>
+
+
+    <!-- 插入记录 -->
+    <insert id="add" parameterType="Object">
+        <selectKey resultType="java.lang.Integer" order="AFTER"
+                   keyProperty="id">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into
+        tb_day(id,day_user_ud,day_project_id,day_context,day_schedule_context,day_schedule_bar,day_createtime)
+        values(#{id},#{day_user_ud},#{day_project_id},#{day_context},#{day_schedule_context},#{day_schedule_bar},#{day_createtime})
+    </insert>
+
+    <!-- 根据id，修改记录 -->
+    <update id="update" parameterType="Object">
+		update tb_day set tb_day.`day_user_ud`=#{day_user_ud},tb_day.`day_project_id`=#{day_project_id},tb_day.`day_context_id`=#{day_context_id},tb_day.`day_context`=#{day_context},tb_day.`day_schedule_context`=#{day_schedule_context},tb_day.`day_schedule_bar`=#{day_schedule_bar},tb_day.`day_createtime`=#{day_createtime}
+		 where tb_day.`id`=#{id}
+	</update>
+
+    <!-- 修改记录，只修改只不为空的字段 -->
+    <update id="updateBySelective" parameterType="Object">
+        update tb_day set
+        <trim suffixOverrides=",">
+            <if test="day_user_ud != null  ">
+                tb_day.`day_user_ud`=#{day_user_ud},
+            </if>
+            <if test="day_project_id != null  ">
+                tb_day.`day_project_id`=#{day_project_id},
+            </if>
+            <if test="day_context != null  and day_context != '' ">
+                tb_day.`day_context`=#{day_context},
+            </if>
+            <if test="day_schedule_context != null  and day_schedule_context != '' ">
+                tb_day.`day_schedule_context`=#{day_schedule_context},
+            </if>
+
+            <if test="day_schedule_bar != null  and day_schedule_bar != '' ">
+                tb_day.`day_schedule_bar`=#{day_schedule_bar},
+            </if>
+        </trim>
+        where tb_day.`id`=#{id}
+    </update>
+
+    <!-- 删除记录 -->
+    <delete id="delete" parameterType="Object">
+		delete 	 from tb_day where tb_day.`id` = #{id}
+	</delete>
+
+    <!-- 根据id查询 晨报管理 -->
+    <select id="queryById" resultMap="BaseResultMap" parameterType="Object">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_day
+        left join sys_user u on tb_day.day_user_ud = u.id
+        left join tb_project p on tb_day.day_project_id = p.id
+        where tb_day.`id` = #{id}
+    </select>
+
+    <!-- 晨报管理 列表总数 -->
+    <select id="queryByCount" resultType="java.lang.Integer"
+            parameterType="Object">
+        select count(1) from tb_day
+        left join sys_user u on tb_day.day_user_ud = u.id
+        left join tb_project p on tb_day.day_project_id = p.id
+        <include refid="Example_Where_Clause"/>
+    </select>
+
+    <!-- 查询晨报管理 -->
+    <select id="queryByList" resultMap="BaseResultMap"
+            parameterType="Object">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_day
+        left join sys_user u on tb_day.day_user_ud = u.id
+        left join tb_project p on tb_day.day_project_id = p.id
+        <include refid="Example_Where_Clause"/>
+        and tb_day.day_project_id in (select id from tb_project)
+        ORDER BY day_createtime desc
+        <if test="pager.orderCondition != null and pager.orderCondition != ''">
+            ${pager.orderCondition}
+        </if>
+        <if
+            test="pager.mysqlQueryCondition != null and pager.mysqlQueryCondition != ''">
+            ${pager.mysqlQueryCondition}
+        </if>
+    </select>
+
+    <!-- 查询晨报报表 -->
+    <select id="queryReportByList" resultMap="BaseResultMap"
+            parameterType="Object">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_day
+        left join sys_user u on tb_day.day_user_ud = u.id
+        left join tb_project p on tb_day.day_project_id = p.id
+        <include refid="Example_Where_Clause"/>
+        and tb_day.day_project_id in (select id from tb_project)
+        ORDER BY p.project_sort asc,p.project_name desc,u.id asc,day_createtime desc
+        <if test="pager.orderCondition != null and pager.orderCondition != ''">
+            ${pager.orderCondition}
+        </if>
+        <if
+            test="pager.mysqlQueryCondition != null and pager.mysqlQueryCondition != ''">
+            ${pager.mysqlQueryCondition}
+        </if>
+    </select>
+
+    <select id="queryReportCount" resultType="java.lang.Integer"
+            parameterType="Object">
+        select
+        count(id)
+        from tb_day
+        left join sys_user u on tb_day.day_user_ud = u.id
+        left join tb_project p on tb_day.day_project_id = p.id
+        <include refid="Example_Where_Clause"/>
+        and tb_day.day_project_id in (select id from tb_project)
+        ORDER BY p.project_sort asc,p.project_name desc,u.id asc,day_createtime desc
+        <if test="pager.orderCondition != null and pager.orderCondition != ''">
+            ${pager.orderCondition}
+        </if>
+        <if
+            test="pager.mysqlQueryCondition != null and pager.mysqlQueryCondition != ''">
+            ${pager.mysqlQueryCondition}
+        </if>
+    </select>
+
+
+    <!-- 查询今日提交人数 -->
+    <select id="querySubByCount" resultType="java.lang.Integer"
+            parameterType="Object">
+        select distinct count(distinct day_user_ud) from tb_day
+        <include refid="Example_Where_Clause"/>
+    </select>
+
+    <select id="queryIndexDay" resultMap="BaseResultMap">
+    SELECT
+        *
+    FROM
+        tb_day td
+    WHERE
+        td.day_user_ud = #{userId}
+    AND td.day_project_id = #{projectId}
+    AND DATE_FORMAT(td.day_createtime, '%Y-%m-%d') BETWEEN #{startTime}
+    AND #{endTime}
+    ORDER BY td.day_createtime
+    </select>
+
+    <select id="queryByTime" resultType="com.hbsd.bean.business.TbDay">
+        SELECT
+	tb_day.`id`,
+	tb_day.`day_createtime`,
+	tb_day.`day_user_ud`,
+	tb_day.`day_project_id`,
+	tb_day.`day_context`,
+	tb_day.`day_schedule_context`,
+	tb_day.`day_schedule_bar`,
+	u.nickName,
+	p.project_name,
+	p.project_manager,
+	p.id AS pid
+FROM
+	tb_day
+LEFT JOIN sys_user u ON tb_day.day_user_ud = u.id
+LEFT JOIN tb_project p ON tb_day.day_project_id = p.id
+where DATE_FORMAT(day_createtime,'%Y-%m-%d') BETWEEN #{startTime} and #{endTime} and day_user_ud = #{userId}
+ORDER BY day_createtime
+    </select>
+
+
+    <select id="queryReportByListNoLogin" resultMap="BaseResultMap"
+            parameterType="Object">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_day
+        left join sys_user u on tb_day.day_user_ud = u.id
+        left join tb_project p on tb_day.day_project_id = p.id
+       <!-- <include refid="Example_Where_Clause"/>-->
+       WHERE tb_day.`day_createtime` like #{date}
+        and tb_day.day_project_id in (select id from tb_project)
+        ORDER BY p.project_sort asc,p.project_name desc,u.id asc,day_createtime desc
+     <!--   <if test="pager.orderCondition != null and pager.orderCondition != ''">
+            ${pager.orderCondition}
+        </if>
+        <if
+                test="pager.mysqlQueryCondition != null and pager.mysqlQueryCondition != ''">
+            ${pager.mysqlQueryCondition}
+        </if>-->
+    </select>
+
+</mapper>

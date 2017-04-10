@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hbsd.mapper.business.TbOutMapper">
+	<!-- Result Map -->
+	<resultMap id="BaseResultMap" type="com.hbsd.bean.business.TbOut">
+				<result column="id" property="id" />
+				<result column="out_userid" property="out_userid" />
+				<result column="out_projectid" property="out_projectid" />
+				<result column="out_begintime" property="out_begintime" />
+				<result column="out_endtime" property="out_endtime" />
+				<result column="out_context" property="out_context" />
+				<result column="out_vehicle" property="out_vehicle" />
+				<result column="out_remark" property="out_remark" />
+			</resultMap>
+
+	<!-- tb_out table all fields -->
+	<sql id="Base_Column_List">
+		tb_out.`id`,tb_out.`out_userid`,tb_out.`out_projectid`,tb_out.`out_begintime`,tb_out.`out_endtime`,tb_out.`out_context`,tb_out.`out_vehicle`,tb_out.`out_remark`,u.nickName,p.project_name,d.data_value,d.dict_id
+	</sql>
+
+
+	<!-- 查询条件 -->
+	<sql id="Example_Where_Clause">
+		where 1=1
+		<trim suffixOverrides=",">
+									<if test="id != null">
+				and tb_out.`id` = #{id}
+			</if>
+									<if test="out_userid != null">
+				and tb_out.`out_userid` = #{out_userid}
+			</if>
+									<if test="out_projectid != null">
+				and tb_out.`out_projectid` = #{out_projectid}
+			</if>
+												<if test="out_begintime != null and out_begintime != ''">
+				and tb_out.`out_begintime` = #{out_begintime}
+			</if>
+												<if test="out_endtime != null and out_endtime != ''">
+				and tb_out.`out_endtime` = #{out_endtime}
+			</if>
+												<if test="out_context != null and out_context != ''">
+				and tb_out.`out_context` = #{out_context}
+			</if>
+									<if test="out_vehicle != null">
+				and tb_out.`out_vehicle` = #{out_vehicle}
+			</if>
+												<if test="out_remark != null and out_remark != ''">
+				and tb_out.`out_remark` = #{out_remark}
+			</if>
+					</trim>
+	</sql>
+
+
+	<!-- 插入记录 -->
+	<insert id="add" parameterType="Object">
+		<selectKey resultType="java.lang.Integer" order="AFTER"
+			keyProperty="id">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		insert into tb_out(id,out_userid,out_projectid,out_begintime,out_endtime,out_context,out_vehicle,out_remark)
+ values(#{id},#{out_userid},#{out_projectid},#{out_begintime},#{out_endtime},#{out_context},#{out_vehicle},#{out_remark})
+	</insert>
+
+	<!-- 根据id，修改记录 -->
+	<update id="update" parameterType="Object">
+		update tb_out set tb_out.`out_userid`=#{out_userid},tb_out.`out_projectid`=#{out_projectid},tb_out.`out_begintime`=#{out_begintime},tb_out.`out_endtime`=#{out_endtime},tb_out.`out_context`=#{out_context},tb_out.`out_vehicle`=#{out_vehicle},tb_out.`out_remark`=#{out_remark} where tb_out.`id`=#{id}
+	</update>
+
+	<!-- 修改记录，只修改只不为空的字段 -->
+	<update id="updateBySelective" parameterType="Object">
+		update tb_out set 
+	<trim  suffixOverrides="," >
+	<if test="out_userid != null  ">
+		tb_out.`out_userid`=#{out_userid},
+	</if>
+	<if test="out_projectid != null  ">
+		tb_out.`out_projectid`=#{out_projectid},
+	</if>
+	<if test="out_begintime != null  and out_begintime != '' ">
+		tb_out.`out_begintime`=#{out_begintime},
+	</if>
+	<if test="out_endtime != null  and out_endtime != '' ">
+		tb_out.`out_endtime`=#{out_endtime},
+	</if>
+	<if test="out_context != null  and out_context != '' ">
+		tb_out.`out_context`=#{out_context},
+	</if>
+	<if test="out_vehicle != null  ">
+		tb_out.`out_vehicle`=#{out_vehicle},
+	</if>
+	<if test="out_remark != null  and out_remark != '' ">
+		tb_out.`out_remark`=#{out_remark},
+	</if>
+	</trim> where tb_out.`id`=#{id}
+	</update>
+
+	<!-- 删除记录 -->
+	<delete id="delete" parameterType="Object">
+		delete 	 from tb_out where tb_out.`id` = #{id}
+	</delete>
+
+	<!-- 根据id查询 外出管理 -->
+	<select id="queryById" resultMap="BaseResultMap" parameterType="Object">
+		select <include refid="Base_Column_List" /> 
+	 from tb_out
+	 left join sys_user u on tb_out.out_userid = u.id
+	 left join tb_project p on tb_out.out_projectid = p.id
+	 left join sys_dict_value d on tb_out.out_vehicle= d.id
+	  where tb_out.`id` = #{id}
+	</select>
+
+	<!-- 外出管理 列表总数 -->
+	<select id="queryByCount" resultType="java.lang.Integer"
+		parameterType="Object">
+		select count(1) from tb_out
+		<include refid="Example_Where_Clause" />
+	</select>
+
+	<!-- 查询外出管理列表 -->
+	<select id="queryByList" resultMap="BaseResultMap"
+		parameterType="Object">
+		select
+		<include refid="Base_Column_List" />
+		from tb_out
+		left join sys_user u on tb_out.out_userid = u.id
+		left join tb_project p on tb_out.out_projectid = p.id
+		left join sys_dict_value d on tb_out.out_vehicle = d.id 
+		<include refid="Example_Where_Clause" />
+		<if test="pager.orderCondition != null and pager.orderCondition != ''">
+			${pager.orderCondition}
+		</if>
+		<if
+			test="pager.mysqlQueryCondition != null and pager.mysqlQueryCondition != ''">
+			${pager.mysqlQueryCondition}
+		</if>
+	</select>
+
+</mapper>   

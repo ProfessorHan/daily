@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hbsd.mapper.sys.DeptMapper">
+	<!-- Result Map -->
+	<resultMap id="BaseResultMap" type="com.hbsd.bean.sys.Dept">
+				<result column="dept_id" property="dept_id" />
+				<result column="name" property="name" />
+				<result column="p_id" property="_parentId" />
+			</resultMap>
+		
+
+	<!-- dept table all fields -->
+	<sql id="Base_Column_List">
+		dept_id,name,p_id,p_guanxi
+	</sql>
+
+
+	<!-- 查询条件 -->
+	<sql id="Example_Where_Clause">
+		where 1=1
+		<trim suffixOverrides=",">
+			<if test="guanxi != null and guanxi != ''">
+				and where sys_dept.p_guanxi LIKE #{guanxi}
+			</if>
+			
+		 </trim>
+	</sql>
+
+
+	<!-- 插入记录 -->
+	<insert id="add" parameterType="Object">
+		<selectKey resultType="java.lang.Integer" order="AFTER"
+			keyProperty="id">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		insert into sys_dept(dept_id,name,p_id)
+ values(#{dept_id},#{name},#{_parentId})
+	</insert>
+
+	<!-- 根据id，修改记录 -->
+	<update id="update" parameterType="Object">
+		update sys_dept set name=#{name},p_id=#{_parentId} where dept_id=#{dept_id}
+	</update>
+
+	<!-- 修改记录，只修改只不为空的字段 -->
+	<update id="updateBySelective" parameterType="Object">
+		update sys_dept set 
+	<trim  suffixOverrides="," >
+	<if test="name != null  and name != '' ">
+		name=#{name},
+	</if>
+	<if test="p_id != null  ">
+		p_id=#{_parentId},
+	</if>
+	</trim> where dept_id=#{dept_id}
+	</update>
+
+	<!-- 删除记录 -->
+	<delete id="delete" parameterType="Object">
+		delete 	 from sys_dept where dept_id = #{dept_id}
+	</delete>
+
+	<!-- 根据id查询 部门管理 -->
+	<select id="queryById" resultMap="BaseResultMap" parameterType="Object">
+		select <include refid="Base_Column_List" /> 
+	 from sys_dept where dept_id = #{dept_id}
+	</select>
+	
+		<select id="queryByname" resultMap="BaseResultMap" parameterType="Object">
+		select  <include refid="Base_Column_List" />  
+		 from sys_dept where name = #{Editname} ORDER BY dept_id DESC LIMIT 0,1
+	</select>
+	
+		<select id="queryBywhere" resultMap="BaseResultMap" parameterType="Object">
+		select  <include refid="Base_Column_List" />  
+	<!--  from dept  where contact REGEXP #{deptstr} -->
+	from sys_dept 
+	where
+	p_guanxi REGEXP #{guanxi}
+	
+	
+	
+	</select>
+
+
+
+	<!-- 查询部门管理列表 -->
+	<select id="queryByList" resultMap="BaseResultMap"
+		parameterType="Object">
+		select
+		<include refid="Base_Column_List" />
+		from sys_dept
+		<include refid="Example_Where_Clause" />
+		<if test="pager.orderCondition != null and pager.orderCondition != ''">
+			${pager.orderCondition}
+		</if>
+		<if
+			test="pager.mysqlQueryCondition != null and pager.mysqlQueryCondition != ''">
+			${pager.mysqlQueryCondition}
+		</if>
+	</select>
+
+</mapper>   

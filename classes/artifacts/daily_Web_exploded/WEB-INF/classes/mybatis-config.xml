@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+	<typeAliases></typeAliases>
+	<mappers>
+		<!-- 菜单 -->
+		<mapper resource="com/hbsd/mybatis/sys/SysMenuMapper.xml" />
+		<!-- 用户 -->
+		<mapper resource="com/hbsd/mybatis/sys/SysUserMapper.xml" />
+		<!-- 角色 -->
+		<mapper resource="com/hbsd/mybatis/sys/SysRoleMapper.xml" />
+		<!-- 角色菜单关联 -->
+		<mapper resource="com/hbsd/mybatis/sys/SysRoleRelMapper.xml" />
+		<!-- 自动生成java -->
+		<mapper resource="com/hbsd/mybatis/sys/SysCreatejavaMapper.xml" />
+		<!-- 部门 -->
+		<mapper resource="com/hbsd/mybatis/sys/DeptMapper.xml" />
+		<!-- 字典 -->
+		<mapper resource="com/hbsd/mybatis/sys/SysDictMapper.xml" />
+		<!-- 字典数据 -->
+		<mapper resource="com/hbsd/mybatis/sys/SysDictValueMapper.xml" />
+		<!-- 分组 -->
+		<mapper resource="com/hbsd/mybatis/business/TbGroupMapper.xml" />
+		<!-- 分组用户 -->
+		<mapper resource="com/hbsd/mybatis/business/TbGroupUserMapper.xml" />
+		<!-- 项目管理 -->
+		<mapper resource="com/hbsd/mybatis/business/TbProjectMapper.xml" />
+		<!-- 项目用户管理 -->
+		<mapper resource="com/hbsd/mybatis/business/TbProjectUserMapper.xml" />
+		<!-- 请假管理 -->
+		<mapper resource="com/hbsd/mybatis/business/TbLeaveMapper.xml" />
+		<!-- 调休管理 -->
+		<mapper resource="com/hbsd/mybatis/business/TbOffMapper.xml" />
+		<!-- 加班管理 -->
+		<mapper resource="com/hbsd/mybatis/business/TbOvertimeMapper.xml" />
+		<!-- 外出管理 -->
+		<mapper resource="com/hbsd/mybatis/business/TbOutMapper.xml" />
+		<!-- 消息提醒 -->
+		<mapper resource="com/hbsd/mybatis/business/TbMsgMapper.xml" />
+		<!-- 晨报管理 -->
+		<mapper resource="com/hbsd/mybatis/business/TbDayMapper.xml" />
+		<!-- 晨报管理(子表) -->
+		<mapper resource="com/hbsd/mybatis/business/TbDayContextMapper.xml" />
+		<!-- 周计划总结(计划)-->
+		<mapper resource="com/hbsd/mybatis/business/TbPlanMapper.xml" />
+		<!-- 周计划总结(总结)-->
+		<mapper resource="com/hbsd/mybatis/business/TbPlanContextMapper.xml" />
+		<!-- 调度单管理-->
+		<mapper resource="com/hbsd/mybatis/business/TbDispatchMapper.xml" />
+		<!-- tb_plan_user-->
+		<mapper resource="com/hbsd/mybatis/business/TbPlanUserMapper.xml" />
+		<!-- tb_task-->
+		<mapper resource="com/hbsd/mybatis/business/TbTaskMapper.xml" />
+		<!--tb_meeting-->
+		<mapper resource="com/hbsd/mybatis/business/TbMeetingMapper.xml" />
+		<!-- tb_meeting_user-->
+		<mapper resource="com/hbsd/mybatis/business/TbMeetingUserMapper.xml" />
+		<!--tb_score_record-->
+		<mapper resource="com/hbsd/mybatis/business/TbScoreRecordMapper.xml" />
+		<!--tb_check-->
+		<mapper resource="com/hbsd/mybatis/business/TbCheckMapper.xml" />
+
+		<mapper resource="com/hbsd/mybatis/business/TbMonthScoreMapper.xml" />
+
+		<mapper resource="com/hbsd/mybatis/business/MonthScoreRecordMapper.xml" />
+		<!--调休表-->
+		<mapper resource="com/hbsd/mybatis/business/OfftimeRecordMapper.xml" />
+		<!--加班调休关联表-->
+		<mapper resource="com/hbsd/mybatis/business/OverOffRelationMapper.xml" />
+		<!--加班表-->
+		<mapper resource="com/hbsd/mybatis/business/OvertimeRecordMapper.xml" />
+	</mappers>
+</configuration>

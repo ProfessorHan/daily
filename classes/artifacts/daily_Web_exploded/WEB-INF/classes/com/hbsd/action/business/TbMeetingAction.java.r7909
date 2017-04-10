@@ -1,0 +1,44 @@
+package com.hbsd.action.business;
+
+import com.hbsd.annotation.Auth;
+import com.hbsd.bean.business.TbProject;
+import com.hbsd.model.business.TbProjectModel;
+import com.hbsd.service.business.TbProjectService;
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
+
+import java.util.List;
+import java.util.Map;
+
+/**
+ * Created by JARVIS on 2017/3/10.
+ */
+@Controller
+@RequestMapping("/tbMeeting")
+public class TbMeetingAction {
+    private final static Logger log= Logger.getLogger(TbMeetingAction.class);
+
+    @Autowired
+    private TbProjectService<TbProject> tbProjectService;
+
+    @RequestMapping("/list")
+    @Auth(verifyLogin = true, verifyURL = false)
+    public String list(TbProjectModel model,ModelMap context) throws Exception {
+        model.setRows(15);
+
+        /*if (model.getProject_name() != null && !model.getProject_name().equals("")) {
+            String project=request.getParameter("project_name");
+            String project_name =new String(project.getBytes("ISO-8859-1"),"utf-8");
+            model.setProject_name("%"+project_name+"%");
+            context.put("project_name", model.getProject_name());
+        }*/
+        List<TbProject> list = tbProjectService.queryByList(model);
+        context.put("dataList", list);
+        context.put("page", model.getPager());
+        return "business/tbMeetingList";
+    }
+}

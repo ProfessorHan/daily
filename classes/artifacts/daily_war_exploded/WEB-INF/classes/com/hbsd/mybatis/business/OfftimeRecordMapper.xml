@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hbsd.mapper.business.OfftimeRecordMapper">
+  <resultMap id="BaseResultMap" type="com.hbsd.bean.business.OfftimeRecord">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
+    <result column="user_role_id" jdbcType="INTEGER" property="userRoleId" />
+    <result column="project_id" jdbcType="INTEGER" property="projectId" />
+    <result column="project_manager_id" jdbcType="INTEGER" property="projectManagerId" />
+    <result column="offtime_day" jdbcType="DOUBLE" property="offtimeDay" />
+    <result column="begin_time" jdbcType="TIMESTAMP" property="beginTime" />
+    <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
+    <result column="submit_time" jdbcType="TIMESTAMP" property="submitTime" />
+    <result column="submit_status" jdbcType="INTEGER" property="submitStatus" />
+    <result column="manager_check_time" jdbcType="TIMESTAMP" property="managerCheckTime" />
+    <result column="master_check_time" jdbcType="TIMESTAMP" property="masterCheckTime" />
+    <result column="manager_check_status" jdbcType="INTEGER" property="managerCheckStatus" />
+    <result column="master_check_status" jdbcType="INTEGER" property="masterCheckStatus" />
+    <result column="check_status" jdbcType="INTEGER" property="checkStatus" />
+    <result column="comment" jdbcType="VARCHAR" property="comment" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, user_id, user_name, user_role_id, project_id, project_manager_id, offtime_day, 
+    begin_time, end_time, submit_time, submit_status, manager_check_time, master_check_time, 
+    manager_check_status, master_check_status, check_status, comment
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from offtime_record
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from offtime_record
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.hbsd.bean.business.OfftimeRecord">
+    insert into offtime_record (id, user_id, user_name, 
+      user_role_id, project_id, project_manager_id, 
+      offtime_day, begin_time, end_time, 
+      submit_time, submit_status, manager_check_time, 
+      master_check_time, manager_check_status, 
+      master_check_status, check_status, comment
+      )
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, 
+      #{userRoleId,jdbcType=INTEGER}, #{projectId,jdbcType=INTEGER}, #{projectManagerId,jdbcType=INTEGER}, 
+      #{offtimeDay,jdbcType=DOUBLE}, #{beginTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, 
+      #{submitTime,jdbcType=TIMESTAMP}, #{submitStatus,jdbcType=INTEGER}, #{managerCheckTime,jdbcType=TIMESTAMP}, 
+      #{masterCheckTime,jdbcType=TIMESTAMP}, #{managerCheckStatus,jdbcType=INTEGER}, 
+      #{masterCheckStatus,jdbcType=INTEGER}, #{checkStatus,jdbcType=INTEGER}, #{comment,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.hbsd.bean.business.OfftimeRecord" useGeneratedKeys="true"  keyProperty="id">
+    insert into offtime_record
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="userName != null">
+        user_name,
+      </if>
+      <if test="userRoleId != null">
+        user_role_id,
+      </if>
+      <if test="projectId != null">
+        project_id,
+      </if>
+      <if test="projectManagerId != null">
+        project_manager_id,
+      </if>
+      <if test="offtimeDay != null">
+        offtime_day,
+      </if>
+      <if test="beginTime != null">
+        begin_time,
+      </if>
+      <if test="endTime != null">
+        end_time,
+      </if>
+      <if test="submitTime != null">
+        submit_time,
+      </if>
+      <if test="submitStatus != null">
+        submit_status,
+      </if>
+      <if test="managerCheckTime != null">
+        manager_check_time,
+      </if>
+      <if test="masterCheckTime != null">
+        master_check_time,
+      </if>
+      <if test="managerCheckStatus != null">
+        manager_check_status,
+      </if>
+      <if test="masterCheckStatus != null">
+        master_check_status,
+      </if>
+      <if test="checkStatus != null">
+        check_status,
+      </if>
+      <if test="comment != null">
+        comment,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="userName != null">
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="userRoleId != null">
+        #{userRoleId,jdbcType=INTEGER},
+      </if>
+      <if test="projectId != null">
+        #{projectId,jdbcType=INTEGER},
+      </if>
+      <if test="projectManagerId != null">
+        #{projectManagerId,jdbcType=INTEGER},
+      </if>
+      <if test="offtimeDay != null">
+        #{offtimeDay,jdbcType=DOUBLE},
+      </if>
+      <if test="beginTime != null">
+        #{beginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null">
+        #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="submitTime != null">
+        #{submitTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="submitStatus != null">
+        #{submitStatus,jdbcType=INTEGER},
+      </if>
+      <if test="managerCheckTime != null">
+        #{managerCheckTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="masterCheckTime != null">
+        #{masterCheckTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="managerCheckStatus != null">
+        #{managerCheckStatus,jdbcType=INTEGER},
+      </if>
+      <if test="masterCheckStatus != null">
+        #{masterCheckStatus,jdbcType=INTEGER},
+      </if>
+      <if test="checkStatus != null">
+        #{checkStatus,jdbcType=INTEGER},
+      </if>
+      <if test="comment != null">
+        #{comment,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hbsd.bean.business.OfftimeRecord">
+    update offtime_record
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="userName != null">
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="userRoleId != null">
+        user_role_id = #{userRoleId,jdbcType=INTEGER},
+      </if>
+      <if test="projectId != null">
+        project_id = #{projectId,jdbcType=INTEGER},
+      </if>
+      <if test="projectManagerId != null">
+        project_manager_id = #{projectManagerId,jdbcType=INTEGER},
+      </if>
+      <if test="offtimeDay != null">
+        offtime_day = #{offtimeDay,jdbcType=DOUBLE},
+      </if>
+      <if test="beginTime != null">
+        begin_time = #{beginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null">
+        end_time = #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="submitTime != null">
+        submit_time = #{submitTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="submitStatus != null">
+        submit_status = #{submitStatus,jdbcType=INTEGER},
+      </if>
+      <if test="managerCheckTime != null">
+        manager_check_time = #{managerCheckTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="masterCheckTime != null">
+        master_check_time = #{masterCheckTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="managerCheckStatus != null">
+        manager_check_status = #{managerCheckStatus,jdbcType=INTEGER},
+      </if>
+      <if test="masterCheckStatus != null">
+        master_check_status = #{masterCheckStatus,jdbcType=INTEGER},
+      </if>
+      <if test="checkStatus != null">
+        check_status = #{checkStatus,jdbcType=INTEGER},
+      </if>
+      <if test="comment != null">
+        comment = #{comment,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hbsd.bean.business.OfftimeRecord">
+    update offtime_record
+    set user_id = #{userId,jdbcType=INTEGER},
+      user_name = #{userName,jdbcType=VARCHAR},
+      user_role_id = #{userRoleId,jdbcType=INTEGER},
+      project_id = #{projectId,jdbcType=INTEGER},
+      project_manager_id = #{projectManagerId,jdbcType=INTEGER},
+      offtime_day = #{offtimeDay,jdbcType=DOUBLE},
+      begin_time = #{beginTime,jdbcType=TIMESTAMP},
+      end_time = #{endTime,jdbcType=TIMESTAMP},
+      submit_time = #{submitTime,jdbcType=TIMESTAMP},
+      submit_status = #{submitStatus,jdbcType=INTEGER},
+      manager_check_time = #{managerCheckTime,jdbcType=TIMESTAMP},
+      master_check_time = #{masterCheckTime,jdbcType=TIMESTAMP},
+      manager_check_status = #{managerCheckStatus,jdbcType=INTEGER},
+      master_check_status = #{masterCheckStatus,jdbcType=INTEGER},
+      check_status = #{checkStatus,jdbcType=INTEGER},
+      comment = #{comment,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <sql id="Base_Column_List1">
+    ofr.id, user_id, user_name, user_role_id, project_id, project_manager_id, offtime_day,
+    begin_time, end_time, submit_time, submit_status, manager_check_time, master_check_time,
+    manager_check_status, master_check_status, check_status, comment,tp.project_name,su.nickName
+  </sql>
+  <resultMap id="BaseResultMap1" type="com.hbsd.bean.business.OfftimeRecord" extends="BaseResultMap">
+      <result column="project_name" property="projectName"></result>
+      <result column="nickName" property="projectManagerName"></result>
+  </resultMap>
+  <!--根据userId取出相应的所有调休记录-->
+  <select id="selectListByUserId" resultMap="BaseResultMap1">
+      SELECT <include refid="Base_Column_List1"/>
+      FROM offtime_record ofr
+      LEFT JOIN tb_project tp ON ofr.project_id=tp.id
+      LEFT JOIN sys_user su ON su.id=tp.project_manager
+      WHERE user_id=#{userId}
+      ORDER BY submit_time DESC
+  </select>
+
+  <!--根据userId查询出待审和的调休记录-->
+  <select id="selectCheckListByUserId" resultMap="BaseResultMap1">
+    SELECT <include refid="Base_Column_List1"/>
+    FROM offtime_record ofr
+    LEFT JOIN tb_project tp ON ofr.project_id=tp.id
+    LEFT JOIN sys_user su ON su.id=tp.project_manager
+    <if test="userId != 1">
+      WHERE project_manager_id=#{userId} AND manager_check_status = 0 AND submit_status=1
+    </if>
+    <if test="userId == 1">
+      WHERE manager_check_status=1 AND master_check_status=0 AND submit_status=1
+      OR (project_manager_id=1 AND manager_check_status = 0  AND submit_status=1)
+    </if>
+    ORDER BY submit_time DESC
+  </select>
+
+<!--查询所有人已经提交的调休记录-->
+  <select id="selectList" resultMap="BaseResultMap1">
+    SELECT <include refid="Base_Column_List1"/>
+    FROM offtime_record ofr
+    LEFT JOIN tb_project tp ON ofr.project_id=tp.id
+    LEFT JOIN sys_user su ON su.id=tp.project_manager
+    WHERE submit_status=1
+    ORDER BY submit_time DESC
+  </select>
+
+</mapper>

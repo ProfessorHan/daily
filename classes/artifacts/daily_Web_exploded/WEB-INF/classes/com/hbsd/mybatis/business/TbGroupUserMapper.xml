@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hbsd.mapper.business.TbGroupUserMapper">
+	<!-- Result Map -->
+	<resultMap id="BaseResultMap" type="com.hbsd.bean.business.TbGroupUser">
+				<result column="id" property="id" />
+				<result column="user_id" property="user_id" />
+				<result column="group_id" property="group_id" />
+			</resultMap>
+
+	<!-- tb_group_user table all fields -->
+	<sql id="Base_Column_List">
+		tb_group_user.`id`,tb_group_user.`user_id`,tb_group_user.`group_id`
+	</sql>
+
+
+	<!-- 查询条件 -->
+	<sql id="Example_Where_Clause">
+		where 1=1
+		<trim suffixOverrides=",">
+									<if test="id != null">
+				and tb_group_user.`id` = #{id}
+			</if>
+									<if test="user_id != null">
+				and tb_group_user.`user_id` = #{user_id}
+			</if>
+									<if test="group_id != null">
+				and tb_group_user.`group_id` = #{group_id}
+			</if>
+					</trim>
+	</sql>
+
+
+	<!-- 插入记录 -->
+	<insert id="add" parameterType="Object">
+		<selectKey resultType="java.lang.Integer" order="AFTER"
+			keyProperty="id">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		insert into tb_group_user(id,user_id,group_id)
+ values(#{id},#{user_id},#{group_id})
+	</insert>
+
+	<!-- 根据id，修改记录 -->
+	<update id="update" parameterType="Object">
+		update tb_group_user set tb_group_user.`user_id`=#{user_id},tb_group_user.`group_id`=#{group_id} where tb_group_user.`id`=#{id}
+	</update>
+
+	<!-- 修改记录，只修改只不为空的字段 -->
+	<update id="updateBySelective" parameterType="Object">
+		update tb_group_user set 
+	<trim  suffixOverrides="," >
+	<if test="user_id != null  ">
+		tb_group_user.`user_id`=#{user_id},
+	</if>
+	<if test="group_id != null  ">
+		tb_group_user.`group_id`=#{group_id},
+	</if>
+	</trim> where tb_group_user.`id`=#{id}
+	</update>
+
+	<!-- 删除记录 -->
+	<delete id="delete" parameterType="Object">
+		delete 	 from tb_group_user where tb_group_user.`id` = #{id}
+	</delete>
+
+	<!-- 根据id查询 分组用户管理 -->
+	<select id="queryById" resultMap="BaseResultMap" parameterType="Object">
+		select <include refid="Base_Column_List" /> 
+	 from tb_group_user where tb_group_user.`id` = #{id}
+	</select>
+
+	<!-- 分组用户管理 列表总数 -->
+	<select id="queryByCount" resultType="java.lang.Integer"
+		parameterType="Object">
+		select count(1) from tb_group_user
+		<include refid="Example_Where_Clause" />
+	</select>
+
+	<!-- 查询分组用户管理列表 -->
+	<select id="queryByList" resultMap="BaseResultMap"
+		parameterType="Object">
+		select
+		<include refid="Base_Column_List" />
+		from tb_group_user
+		<include refid="Example_Where_Clause" />
+		<if test="pager.orderCondition != null and pager.orderCondition != ''">
+			${pager.orderCondition}
+		</if>
+		<if
+			test="pager.mysqlQueryCondition != null and pager.mysqlQueryCondition != ''">
+			${pager.mysqlQueryCondition}
+		</if>
+	</select>
+
+</mapper>   

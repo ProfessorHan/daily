@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hbsd.mapper.business.TbGroupMapper">
+	<!-- Result Map -->
+	<resultMap id="BaseResultMap" type="com.hbsd.bean.business.TbGroup">
+				<result column="id" property="id" />
+				<result column="group_name" property="group_name" />
+				<result column="group_num" property="group_num" />
+				<result column="group_create" property="group_create" />
+				<result column="group_create_user" property="group_create_user" />
+			</resultMap>
+
+	<!-- tb_group table all fields -->
+	<sql id="Base_Column_List">
+		tb_group.`id`,tb_group.`group_name`,tb_group.`group_num`,tb_group.`group_create`,tb_group.`group_create_user`,u.nickName as createUser
+	</sql>
+
+
+	<!-- 查询条件 -->
+	<sql id="Example_Where_Clause">
+		where 1=1
+		<trim suffixOverrides=",">
+									<if test="id != null">
+				and tb_group.`id` = #{id}
+			</if>
+												<if test="group_name != null and group_name != ''">
+				and tb_group.`group_name` like #{group_name}
+			</if>
+									<if test="group_num != null">
+				and tb_group.`group_num` = #{group_num}
+			</if>
+												<if test="group_create != null and group_create != ''">
+				and tb_group.`group_create` = #{group_create}
+			</if>
+									<if test="group_create_user != null">
+				and tb_group.`group_create_user` = #{group_create_user}
+			</if>
+					</trim>
+	</sql>
+
+
+	<!-- 插入记录 -->
+	<insert id="add" parameterType="Object">
+		<selectKey resultType="java.lang.Integer" order="AFTER"
+			keyProperty="id">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		insert into tb_group(id,group_name,group_num,group_create,group_create_user)
+ values(#{id},#{group_name},#{group_num},#{group_create},#{group_create_user})
+	</insert>
+
+	<!-- 根据id，修改记录 -->
+	<update id="update" parameterType="Object">
+		update tb_group set tb_group.`group_name`=#{group_name},tb_group.`group_num`=#{group_num},tb_group.`group_create`=#{group_create},tb_group.`group_create_user`=#{group_create_user} where tb_group.`id`=#{id}
+	</update>
+
+	<!-- 修改记录，只修改只不为空的字段 -->
+	<update id="updateBySelective" parameterType="Object">
+		update tb_group set 
+	<trim  suffixOverrides="," >
+	<if test="group_name != null  and group_name != '' ">
+		tb_group.`group_name`=#{group_name},
+	</if>
+	<if test="group_num != null  ">
+		tb_group.`group_num`=#{group_num},
+	</if>
+	<if test="group_create != null  and group_create != '' ">
+		tb_group.`group_create`=#{group_create},
+	</if>
+	<if test="group_create_user != null  ">
+		tb_group.`group_create_user`=#{group_create_user},
+	</if>
+	</trim> where tb_group.`id`=#{id}
+	</update>
+
+	<!-- 删除记录 -->
+	<delete id="delete" parameterType="Object">
+		delete 	 from tb_group where tb_group.`id` = #{id}
+	</delete>
+
+	<!-- 根据id查询 分组管理 -->
+	<select id="queryById" resultMap="BaseResultMap" parameterType="Object">
+		select <include refid="Base_Column_List" /> 
+	 from tb_group 
+	 left join sys_user u on tb_group.group_create_user = u.id
+	 where tb_group.`id` = #{id}
+	</select>
+
+	<!-- 分组管理 列表总数 -->
+	<select id="queryByCount" resultType="java.lang.Integer"
+		parameterType="Object">
+		select count(1) from tb_group
+		<include refid="Example_Where_Clause" />
+	</select>
+
+	<!-- 查询分组管理列表 -->
+	<select id="queryByList" resultMap="BaseResultMap"
+		parameterType="Object">
+		select
+		<include refid="Base_Column_List" />
+		from tb_group
+		left join sys_user u on tb_group.group_create_user = u.id
+		<include refid="Example_Where_Clause" />
+		<if test="pager.orderCondition != null and pager.orderCondition != ''">
+			${pager.orderCondition}
+		</if>
+		<if
+			test="pager.mysqlQueryCondition != null and pager.mysqlQueryCondition != ''">
+			${pager.mysqlQueryCondition}
+		</if>
+	</select>
+
+</mapper>   

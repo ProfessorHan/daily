@@ -1,0 +1,433 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hbsd.mapper.business.TbPlanContextMapper">
+    <!-- Result Map -->
+    <resultMap id="BaseResultMap" type="com.hbsd.bean.business.TbPlanContext">
+        <result column="id" property="id"/>
+        <result column="plan_id" property="plan_id"/>
+        <result column="plan_user_ud" property="plan_user_ud"/>
+        <result column="plan_user_type" property="plan_user_type"/>
+        <result column="plan_task" property="plan_task"/>
+        <result column="plan_expect_result" property="plan_expect_result"/>
+        <result column="plan_expect_enddate" property="plan_expect_enddate"/>
+        <result column="plan_expect_time" property="plan_expect_time"/>
+        <result column="plan_reality_enddate" property="plan_reality_enddate"/>
+        <result column="plan_reality_time" property="plan_reality_time"/>
+        <result column="plan_reality_type" property="plan_reality_type"/>
+        <result column="plan_reality_result" property="plan_reality_result"/>
+        <!--<result column="plan_status" property="planStatus"/>-->
+        <result column="nickName" property="nickName"/>
+        <result column="data_value" property="data_value"/>
+        <result column="plan_self_fine" property="plan_self_fine"/>
+        <result column="plan_owner_fine" property="plan_owner_fine"/>
+        <result column="plan_problem" property="plan_problem"/>
+
+        <result column="plan_self_fine" property="plan_self_fine"/>
+        <result column="plan_owner_fine" property="plan_owner_fine"/>
+        <result column="plan_problem" property="plan_problem"/>
+        <result column="context_status" property="context_status"/>
+
+        <result column="context_defer" property="context_defer"/>
+        <result column="publish_status" property="publish_status"/>
+        <result column="defer_content" property="defer_content"/>
+
+        <result column="assess_type" property="assess_type"/>
+        <result column="assess_content" property="assess_content"/>
+    </resultMap>
+
+    <!-- Result Map -->
+    <resultMap id="BaseResultMap2" type="com.hbsd.bean.business.TbPlanQuery">
+        <id column="id" property="id"/>
+        <result column="plan_project_id" property="plan_project_id"/>
+        <result column="plan_id" property="plan_id"/>
+        <result column="plan_task" property="plan_task"/>
+        <result column="plan_type" property="plan_type"/>
+        <result column="project_name" property="project_name"/>
+        <result column="plan_expect_enddate" property="plan_expect_enddate"/>
+        <result column="creatTime" property="creatTime"/>
+    </resultMap>
+
+
+    <!-- tb_plan_context table all fields -->
+    <sql id="Base_Column_List">
+		tb_plan_context.`id`,tb_plan_context.`plan_id`,tb_plan_context.`plan_user_ud`,tb_plan_context.`plan_user_type`,tb_plan_context.`plan_task`,tb_plan_context.`plan_expect_result`,tb_plan_context.`plan_expect_enddate`,tb_plan_context.`plan_expect_time`,tb_plan_context.`plan_reality_enddate`,tb_plan_context.`plan_reality_time`,tb_plan_context.`plan_reality_type`,tb_plan_context.`plan_reality_result`,u.nickName,d.data_value,d.dict_id
+		,tb_plan_context.plan_self_fine,tb_plan_context.plan_owner_fine,tb_plan_context.plan_problem,tb_plan_context.context_status,tb_plan_context.context_defer,tb_plan_context.defer_content,tb_plan_context.publish_status
+	</sql>
+
+
+    <!-- 查询条件 -->
+    <sql id="Example_Where_Clause">
+        where 1=1
+        <trim suffixOverrides=",">
+            <if test="id != null">
+                and tb_plan_context.`plan_id` = #{id}
+            </if>
+            <!-- 	<if test="plan_id != null">
+and tb_plan_context.`plan_id` = #{plan_id}
+</if> -->
+            <if test="plan_user_ud != null">
+                and tb_plan_context.`plan_user_ud` = #{plan_user_ud}
+            </if>
+            <if test="plan_user_type != null">
+                and tb_plan_context.`plan_user_type` = #{plan_user_type}
+            </if>
+            <if test="plan_task != null and plan_task != ''">
+                and tb_plan_context.`plan_task` = #{plan_task}
+            </if>
+            <if test="plan_expect_result != null and plan_expect_result != ''">
+                and tb_plan_context.`plan_expect_result` = #{plan_expect_result}
+            </if>
+            <if test="plan_expect_enddate != null and plan_expect_enddate != ''">
+                and tb_plan_context.`plan_expect_enddate` = #{plan_expect_enddate}
+            </if>
+            <if test="plan_expect_time != null">
+                and tb_plan_context.`plan_expect_time` = #{plan_expect_time}
+            </if>
+            <if test="plan_reality_enddate != null and plan_reality_enddate != ''">
+                and tb_plan_context.`plan_reality_enddate` = #{plan_reality_enddate}
+            </if>
+            <if test="plan_reality_time != null">
+                and tb_plan_context.`plan_reality_time` = #{plan_reality_time}
+            </if>
+            <if test="plan_reality_type != null">
+                and tb_plan_context.`plan_reality_type` = #{plan_reality_type}
+            </if>
+            <if test="plan_reality_result != null and plan_reality_result != ''">
+                and tb_plan_context.`plan_reality_result` = #{plan_reality_result}
+            </if>
+        </trim>
+    </sql>
+
+
+    <!-- 插入记录 -->
+    <insert id="add" parameterType="Object">
+        <selectKey resultType="java.lang.Integer" order="AFTER"
+                   keyProperty="id">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into
+        tb_plan_context(id,plan_id,plan_user_ud,plan_user_type,plan_task,plan_expect_result,plan_expect_enddate,plan_expect_time,plan_reality_enddate,plan_reality_time,plan_reality_type,plan_reality_result,plan_self_fine,plan_owner_fine,plan_problem,context_defer,publish_status)
+        values(#{id},#{plan_id},#{plan_user_ud},#{plan_user_type},#{plan_task},#{plan_expect_result},#{plan_expect_enddate},#{plan_expect_time},#{plan_reality_enddate},#{plan_reality_time},#{plan_reality_type},#{plan_reality_result},#{plan_self_fine},#{plan_owner_fine},#{plan_problem},#{context_defer},#{publish_status})
+    </insert>
+
+
+    <!-- 根据id，修改记录 -->
+    <update id="update" parameterType="Object">
+		update tb_plan_context set tb_plan_context.`plan_id`=#{plan_id},tb_plan_context.`plan_user_ud`=#{plan_user_ud},tb_plan_context.`plan_user_type`=#{plan_user_type},tb_plan_context.`plan_task`=#{plan_task},tb_plan_context.`plan_expect_result`=#{plan_expect_result},tb_plan_context.`plan_expect_enddate`=#{plan_expect_enddate},tb_plan_context.`plan_expect_time`=#{plan_expect_time},tb_plan_context.`plan_reality_enddate`=#{plan_reality_enddate},tb_plan_context.`plan_reality_time`=#{plan_reality_time},tb_plan_context.`plan_reality_type`=#{plan_reality_type},tb_plan_context.`plan_reality_result`=#{plan_reality_result} where tb_plan_context.`id`=#{id}
+		plan_self_fine=#{plan_self_fine},plan_owner_fine=#{plan_owner_fine},plan_problem=#{plan_problem}
+	</update>
+
+    <!-- 修改记录，只修改只不为空的字段 -->
+    <update id="updateBySelective" parameterType="Object">
+        update tb_plan_context set
+        <trim suffixOverrides=",">
+            <if test="plan_id != null  ">
+                tb_plan_context.`plan_id`=#{plan_id},
+            </if>
+            <if test="plan_user_ud != null  ">
+                tb_plan_context.`plan_user_ud`=#{plan_user_ud},
+            </if>
+            <if test="plan_user_type != null  ">
+                tb_plan_context.`plan_user_type`=#{plan_user_type},
+            </if>
+            <if test="plan_task != null  and plan_task != '' ">
+                tb_plan_context.`plan_task`=#{plan_task},
+            </if>
+            <if test="plan_expect_result != null  and plan_expect_result != '' ">
+                tb_plan_context.`plan_expect_result`=#{plan_expect_result},
+            </if>
+            <if test="plan_expect_enddate != null  and plan_expect_enddate != '' ">
+                tb_plan_context.`plan_expect_enddate`=#{plan_expect_enddate},
+            </if>
+            <if test="plan_expect_time != null  ">
+                tb_plan_context.`plan_expect_time`=#{plan_expect_time},
+            </if>
+            <if test="plan_reality_enddate != null  and plan_reality_enddate != '' ">
+                tb_plan_context.`plan_reality_enddate`=#{plan_reality_enddate},
+            </if>
+            <if test="plan_reality_time != null  ">
+                tb_plan_context.`plan_reality_time`=#{plan_reality_time},
+            </if>
+            <if test="plan_reality_type != null  ">
+                tb_plan_context.`plan_reality_type`=#{plan_reality_type},
+            </if>
+            <if test="plan_reality_result != null  and plan_reality_result != '' ">
+                tb_plan_context.`plan_reality_result`=#{plan_reality_result},
+            </if>
+
+            <if test="plan_self_fine != null  and plan_self_fine != '' ">
+                tb_plan_context.`plan_self_fine`=#{plan_self_fine},
+            </if>
+
+            <if test="plan_owner_fine != null  and plan_owner_fine != '' ">
+                tb_plan_context.`plan_owner_fine`=#{plan_owner_fine},
+            </if>
+
+            <if test="plan_owner_fine != null  and plan_owner_fine != '' ">
+                tb_plan_context.`plan_owner_fine`=#{plan_owner_fine},
+            </if>
+
+            <if test="context_status != null  ">
+                tb_plan_context.`context_status`=#{context_status},
+            </if>
+            <if test="plan_problem != null  and plan_problem != '' ">
+                tb_plan_context.`plan_problem`=#{plan_problem},
+            </if>
+            <if test="context_defer != null ">
+                tb_plan_context.`context_defer`=#{context_defer},
+            </if>
+            <if test="defer_content !=null">
+                tb_plan_context.`defer_content` = #{tb_plan_context},
+            </if>
+            <if test="publish_status !=null">
+                tb_plan_context.`publish_status` = #{publish_status},
+            </if>
+            <if test="assess_type !=null">
+                tb_plan_context.`assess_type` = #{assess_type},
+            </if>
+            <if test="assess_content !=null">
+                tb_plan_context.`assess_content` = #{assess_content},
+            </if>
+            <if test="assess_user_id !=null">
+                tb_plan_context.`assess_user_id` = #{assess_user_id}
+            </if>
+        </trim>
+        where tb_plan_context.`id`=#{id}
+    </update>
+
+    <!-- 删除记录 -->
+    <delete id="delete" parameterType="Object">
+		delete 	 from tb_plan_context where tb_plan_context.`id` = #{id}
+	</delete>
+
+    <!-- 根据id查询 计划总结表 -->
+    <select id="queryById" resultMap="BaseResultMap" parameterType="Object">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_plan_context
+        left join sys_user u on tb_plan_context.plan_user_ud = u.id
+        left join sys_dict_value d on tb_plan_context.plan_user_type = d.id
+        where tb_plan_context.`id` = #{id}
+    </select>
+
+    <!-- 计划总结表 列表总数 -->
+    <select id="queryByCount" resultType="java.lang.Integer"
+            parameterType="Object">
+        select count(1) from tb_plan_context
+        <include refid="Example_Where_Clause"/>
+    </select>
+
+    <!-- 查询计划总结表列表 -->
+    <select id="queryByList" resultMap="BaseResultMap"
+            parameterType="Object">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_plan_context
+        left join sys_user u on tb_plan_context.plan_user_ud = u.id
+        left join sys_dict_value d on tb_plan_context.plan_user_type = d.id
+
+        <include refid="Example_Where_Clause"/>
+        <if test="pager.orderCondition != null and pager.orderCondition != ''">
+            ${pager.orderCondition}
+        </if>
+        <if
+                test="pager.mysqlQueryCondition != null and pager.mysqlQueryCondition != ''">
+            ${pager.mysqlQueryCondition}
+        </if>
+
+    </select>
+
+    <select id="queryByPlanId" resultMap="BaseResultMap">
+		SELECT
+	su.nickName,sd.data_value,tc.*
+FROM
+	`tb_plan_context` tc
+LEFT JOIN sys_user su on tc.plan_user_ud=su.id
+LEFT JOIN sys_dict_value sd on tc.plan_user_type=sd.id
+WHERE
+	tc.plan_id = #{planId}
+ORDER BY
+	su.nickName,tc.plan_expect_enddate;
+	</select>
+
+    <!--首页查询-->
+    <select id="queryIndexByUserId" resultMap="BaseResultMap2">
+        SELECT
+        pc.id,pro.id plan_project_id,pro.project_name,pc.plan_task,tp.id plan_id,tp.plan_status plan_type,tp.plan_create_time creatTime,tp.plan_expect_enddate
+    FROM
+        tb_plan_context pc
+    LEFT JOIN tb_plan tp on pc.plan_id = tp.id
+    LEFT JOIN tb_project pro on pro.id = tp.plan_project_id
+    WHERE
+        pc.plan_user_ud = #{userId} and tp.plan_status = 1
+	</select>
+
+    <select id="queryExportExcel" resultType="com.hbsd.bean.business.ExportModel">
+      SELECT
+        pl.id planId,
+        pl.plan_name planName,
+        su.nickName projectManage,
+        pl.plan_create_time planStatyTime,
+        pl.plan_expect_enddate planEndTime,
+        pro.project_unit projectUnit,
+        su1.nickName projectDirector,
+        pro.project_contacts projectContacts,
+        pro.project_name projectName,
+        su2.nickName projectUser,
+        sdv.data_value userType,
+        pc.plan_task planTask,
+        pc.plan_expect_result taskResult,
+        pc.plan_expect_enddate expectEndDate,
+        pc.plan_expect_time expectEndTime,
+        pc.plan_reality_enddate realEndDate,
+        pc.plan_reality_time realEndTime,
+        pc.plan_problem resultStatus,
+        pc.plan_self_fine selfFine,
+        pc.plan_owner_fine managerFime
+    FROM
+        tb_plan_context pc
+    LEFT JOIN tb_plan pl ON pc.plan_id = pl.id
+    LEFT JOIN tb_project pro ON pl.plan_project_id = pro.id
+    LEFT JOIN sys_user su ON pro.project_manager = su.id
+    LEFT JOIN sys_user su1 ON pro.project_director = su1.id
+    LEFT JOIN sys_user su2 on pc.plan_user_ud = su2.id
+    LEFT JOIN sys_dict_value sdv on pc.plan_user_type = sdv.id
+    WHERE
+	pl.plan_create_year = #{year} and pl.plan_create_month = #{month} and pl.plan_create_week = #{week} and pl.plan_status = 1
+    ORDER BY su2.nickName,pc.plan_expect_enddate
+    </select>
+
+    <select id="queryPLanSumExport" resultType="com.hbsd.bean.business.ExportModel">
+        SELECT
+        pl.id planId,
+        pl.plan_name planName,
+        su.nickName projectManage,
+        pl.plan_create_time planStatyTime,
+        pl.plan_expect_enddate planEndTime,
+        pro.project_unit projectUnit,
+        su1.nickName projectDirector,
+        pro.project_contacts projectContacts,
+        pro.project_name projectName,
+        su2.nickName projectUser,
+        sdv.data_value userType,
+        pc.plan_task planTask,
+        pc.plan_expect_result taskResult,
+        pc.plan_expect_enddate expectEndDate,
+        pc.plan_expect_time expectEndTime,
+        pc.plan_reality_enddate realEndDate,
+        pc.plan_reality_time realEndTime,
+        pc.plan_problem resultStatus,
+        pc.plan_self_fine selfFine,
+        pc.plan_owner_fine managerFime
+        FROM
+        tb_plan_context pc
+        LEFT JOIN tb_plan pl ON pc.plan_id = pl.id
+        LEFT JOIN tb_project pro ON pl.plan_project_id = pro.id
+        LEFT JOIN sys_user su ON pro.project_manager = su.id
+        LEFT JOIN sys_user su1 ON pro.project_director = su1.id
+        LEFT JOIN sys_user su2 on pc.plan_user_ud = su2.id
+        LEFT JOIN sys_dict_value sdv on pc.plan_user_type = sdv.id
+        WHERE
+        pl.plan_create_year = #{year} and pl.plan_create_month = #{month} and pl.plan_create_week = #{week} and pl.plan_status = 0
+        ORDER BY su2.nickName,pc.plan_expect_enddate
+    </select>
+
+
+    <select id="queryByContextId" resultMap="BaseResultMap">
+        SELECT
+        su.nickName,sd.data_value,tc.*
+        FROM
+        `tb_plan_context` tc
+        LEFT JOIN sys_user su on tc.plan_user_ud=su.id
+        LEFT JOIN sys_dict_value sd on tc.plan_user_type=sd.id
+        WHERE
+        tc.id = #{contextId}
+        ORDER BY
+        su.nickName,tc.plan_expect_enddate;
+    </select>
+
+    <select id="queryByIdForCheck" resultType="com.hbsd.bean.business.TbPlanContext">
+        SELECT * from tb_plan_context;
+    </select>
+    <insert id="saveForCheck">
+        INSERT INTO daily_test.tb_plan_context (
+	id,
+	plan_id,
+	plan_user_ud,
+	plan_user_type,
+	plan_task,
+	plan_expect_result,
+	plan_expect_enddate,
+	plan_expect_time,
+	plan_reality_enddate,
+	plan_reality_time,
+	plan_reality_type,
+	plan_reality_result,
+	plan_self_fine,
+	plan_owner_fine,
+	plan_problem,
+	context_status,
+	context_defer,
+	defer_content,
+	publish_status,
+	assess_type,
+	assess_content,
+	assess_user_id
+)
+VALUES
+	(
+		#{id},
+		#{plan_id},
+		#{plan_user_ud},
+		#{plan_user_type},
+		#{plan_task},
+		#{plan_expect_result},
+		#{plan_expect_enddate},
+		#{plan_expect_time},
+		#{plan_reality_enddate},
+		#{plan_reality_time},
+		#{plan_reality_type},
+		#{plan_reality_result},
+		#{plan_self_fine},
+		#{plan_owner_fine},
+		#{plan_problem},
+		#{context_status},
+		#{context_defer},
+		#{defer_content},
+		#{publish_status},
+		#{assess_type},
+		#{assess_content},
+		#{assess_user_id}
+	);
+    </insert>
+
+    <select id="queryByUserId" resultType="com.hbsd.bean.business.TbPlanContext">
+        SELECT
+	pro.project_name,pc.*
+FROM
+	tb_plan_context pc
+LEFT JOIN tb_plan tp on pc.plan_id = tp.id
+LEFT JOIN tb_project pro on tp.plan_project_id = pro.id
+WHERE pc.plan_expect_enddate BETWEEN #{startTime} and #{endTime} and pc.plan_user_ud = #{userId}
+ORDER BY pro.project_name,pc.plan_expect_enddate
+    </select>
+
+    <select id="queryByUserIdAndTime" resultType="com.hbsd.bean.business.TbPlanContext">
+SELECT
+	pro.project_name,su.nickName,sd.data_value,tc.*
+FROM
+	`tb_plan_context` tc
+LEFT JOIN tb_plan tp on tp.id = tc.plan_id
+LEFT JOIN sys_user su on tc.plan_user_ud=su.id
+LEFT JOIN tb_project pro on tp.plan_project_id = pro.id
+LEFT JOIN sys_dict_value sd on tc.plan_user_type=sd.id
+	WHERE tc.plan_expect_enddate BETWEEN #{startTime} and #{endTime}
+	<if test="userId !=null">
+        and tc.plan_user_ud = #{userId}
+    </if>
+ORDER BY pro.project_name,su.nickName,tc.plan_expect_enddate
+    </select>
+</mapper>

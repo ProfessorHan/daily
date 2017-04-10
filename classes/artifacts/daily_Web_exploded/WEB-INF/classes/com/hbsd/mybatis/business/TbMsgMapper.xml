@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hbsd.mapper.business.TbMsgMapper">
+	<!-- Result Map -->
+	<resultMap id="BaseResultMap" type="com.hbsd.bean.business.TbMsg">
+				<result column="id" property="id" />
+				<result column="msg_tittle" property="msg_tittle" />
+				<result column="msg_context" property="msg_context" />
+				<result column="msg_publish_id" property="msg_publish_id" />
+				<result column="msg_publish_time" property="msg_publish_time" />
+				<result column="msg_receive_ids" property="msg_receive_ids" />
+				<result column="msg_read_ids" property="msg_read_ids" />
+				<result column="msg_level" property="msg_level" />
+				<result column="msg_top" property="msg_top" />
+			</resultMap>
+
+	<!-- tb_msg table all fields -->
+	<sql id="Base_Column_List">
+		tb_msg.`id`,tb_msg.`msg_tittle`,tb_msg.`msg_context`,tb_msg.`msg_publish_id`,tb_msg.`msg_publish_time`,tb_msg.`msg_receive_ids`,tb_msg.`msg_read_ids`,tb_msg.`msg_level`,tb_msg.`msg_top`,u.nickName
+	</sql>
+
+
+	<!-- 查询条件 -->
+	<sql id="Example_Where_Clause">
+		where 1=1
+		<trim suffixOverrides=",">
+									<if test="id != null">
+				and tb_msg.`id` = #{id}
+			</if>
+												<if test="msg_tittle != null and msg_tittle != ''">
+				and tb_msg.`msg_tittle` = #{msg_tittle}
+			</if>
+												<if test="msg_context != null and msg_context != ''">
+				and tb_msg.`msg_context` = #{msg_context}
+			</if>
+									<if test="msg_publish_id != null">
+				and tb_msg.`msg_publish_id` = #{msg_publish_id}
+			</if>
+												<if test="msg_publish_time != null and msg_publish_time != ''">
+				and tb_msg.`msg_publish_time` = #{msg_publish_time}
+			</if>
+												<if test="msg_receive_ids != null and msg_receive_ids != ''">
+				and tb_msg.`msg_receive_ids` = #{msg_receive_ids}
+			</if>
+												<if test="msg_read_ids != null and msg_read_ids != ''">
+				and tb_msg.`msg_read_ids` = #{msg_read_ids}
+			</if>
+									<if test="msg_level != null">
+				and tb_msg.`msg_level` = #{msg_level}
+			</if>
+									<if test="msg_top != null">
+				and tb_msg.`msg_top` = #{msg_top}
+			</if>
+					</trim>
+	</sql>
+
+
+	<!-- 插入记录 -->
+	<insert id="add" parameterType="Object">
+		<selectKey resultType="java.lang.Integer" order="AFTER"
+			keyProperty="id">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		insert into tb_msg(id,msg_tittle,msg_context,msg_publish_id,msg_publish_time,msg_receive_ids,msg_read_ids,msg_level,msg_top)
+ values(#{id},#{msg_tittle},#{msg_context},#{msg_publish_id},#{msg_publish_time},#{msg_receive_ids},#{msg_read_ids},#{msg_level},#{msg_top})
+	</insert>
+
+	<!-- 根据id，修改记录 -->
+	<update id="update" parameterType="Object">
+		update tb_msg set tb_msg.`msg_tittle`=#{msg_tittle},tb_msg.`msg_context`=#{msg_context},tb_msg.`msg_publish_id`=#{msg_publish_id},tb_msg.`msg_publish_time`=#{msg_publish_time},tb_msg.`msg_receive_ids`=#{msg_receive_ids},tb_msg.`msg_read_ids`=#{msg_read_ids},tb_msg.`msg_level`=#{msg_level},tb_msg.`msg_top`=#{msg_top} where tb_msg.`id`=#{id}
+	</update>
+
+	<!-- 修改记录，只修改只不为空的字段 -->
+	<update id="updateBySelective" parameterType="Object">
+		update tb_msg set 
+	<trim  suffixOverrides="," >
+	<if test="msg_tittle != null  and msg_tittle != '' ">
+		tb_msg.`msg_tittle`=#{msg_tittle},
+	</if>
+	<if test="msg_context != null  and msg_context != '' ">
+		tb_msg.`msg_context`=#{msg_context},
+	</if>
+	<if test="msg_publish_id != null  ">
+		tb_msg.`msg_publish_id`=#{msg_publish_id},
+	</if>
+	<if test="msg_publish_time != null  and msg_publish_time != '' ">
+		tb_msg.`msg_publish_time`=#{msg_publish_time},
+	</if>
+	<if test="msg_receive_ids != null  and msg_receive_ids != '' ">
+		tb_msg.`msg_receive_ids`=#{msg_receive_ids},
+	</if>
+	<if test="msg_read_ids != null  and msg_read_ids != '' ">
+		tb_msg.`msg_read_ids`=#{msg_read_ids},
+	</if>
+	<if test="msg_level != null  ">
+		tb_msg.`msg_level`=#{msg_level},
+	</if>
+	<if test="msg_top != null  ">
+		tb_msg.`msg_top`=#{msg_top},
+	</if>
+	</trim> where tb_msg.`id`=#{id}
+	</update>
+
+	<!-- 删除记录 -->
+	<delete id="delete" parameterType="Object">
+		delete 	 from tb_msg where tb_msg.`id` = #{id}
+	</delete>
+
+	<!-- 根据id查询 消息提醒 -->
+	<select id="queryById" resultMap="BaseResultMap" parameterType="Object">
+		select <include refid="Base_Column_List" /> 
+	 from tb_msg
+	  left join sys_user u on tb_msg.msg_publish_id = u.id
+	  where tb_msg.`id` = #{id}
+	</select>
+
+	<!-- 消息提醒 列表总数 -->
+	<select id="queryByCount" resultType="java.lang.Integer"
+		parameterType="Object">
+		select count(1) from tb_msg
+		<include refid="Example_Where_Clause" />
+	</select>
+
+	<!-- 查询消息提醒列表 -->
+	<select id="queryByList" resultMap="BaseResultMap"
+		parameterType="Object">
+		select
+		<include refid="Base_Column_List" />
+		from tb_msg
+	    left join sys_user u on tb_msg.msg_publish_id = u.id
+	    
+		<include refid="Example_Where_Clause" />
+		order by msg_top desc,msg_level
+		<if test="pager.orderCondition != null and pager.orderCondition != ''">
+			${pager.orderCondition}
+		</if>
+		<if
+			test="pager.mysqlQueryCondition != null and pager.mysqlQueryCondition != ''">
+			${pager.mysqlQueryCondition}
+		</if>
+		
+	</select>
+
+ 
+
+
+</mapper>   

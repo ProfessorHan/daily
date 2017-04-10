@@ -1,0 +1,381 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hbsd.mapper.business.TbProjectMapper">
+    <!-- Result Map -->
+    <resultMap id="BaseResultMap" type="com.hbsd.bean.business.TbProject">
+        <result column="id" property="id"/>
+        <result column="project_name" property="project_name"/>
+        <result column="project_manager" property="project_manager"/>
+        <result column="project_director" property="project_director"/>
+        <result column="project_unit" property="project_unit"/>
+        <result column="project_contacts" property="project_contacts"/>
+        <result column="project_create" property="project_create"/>
+        <result column="project_create_user" property="project_create_user"/>
+        <result column="project_type" property="project_type"/>
+        <result column="project_sort" property="project_sort"/>
+        <result column="plan_id" property="planId"/>
+        <result column="plan_create_time" property="planCreateTime"/>
+        <result column="plan_expect_enddate" property="planEndtime"/>
+        <result column="plan_name" property="planName"/>
+        <result column="plan_status" property="planStatus"/>
+        <result column="plan_create_year" property="plan_create_year"/>
+        <result column="plan_create_month" property="plan_create_month"/>
+        <result column="plan_create_week" property="plan_create_week"/>
+
+    </resultMap>
+
+    <resultMap id="BaseResultMap2" type="com.hbsd.bean.business.TbProject" extends="BaseResultMap">
+        <result column="context_status" property="context_status"/>
+    </resultMap>
+    <!-- tb_project table all fields -->
+    <sql id="Base_Column_List">
+		tb_project.`id`,tb_project.`project_name`,tb_project.`project_manager`,tb_project.`project_director`,tb_project.`project_unit`,tb_project.`project_contacts`,tb_project.`project_create`,tb_project.`project_create_user`,tb_project.`project_type`,tb_project.`project_sort`,
+		u.nickName as managerName,u1.nickName as directorName
+	</sql>
+
+    <sql id="Base">
+		tb_project.`id`,tb_project.`project_name`,tb_project.`project_manager`,tb_project.`project_director`,tb_project.`project_unit`,tb_project.`project_contacts`,tb_project.`project_create`,tb_project.`project_create_user`,tb_project.`project_type`,tb_project.`project_sort`,
+		u.nickName as managerName,pc.plan_reality_time,pc.plan_reality_type
+	</sql>
+
+    <sql id="Base_List_Plan">
+        tb_project.`id`,tb_project.`project_name`,tb_project.`project_manager`,tb_project.`project_director`,tb_project.`project_unit`,tb_project.`project_contacts`,tb_project.`project_create`,tb_project.`project_create_user`,tb_project.`project_type`,tb_project.`project_sort`,
+        u.nickName as managerName,u1.nickName as directorName,tp.id plan_id,tp.plan_create_time,tp.plan_expect_enddate,tp.plan_name,tp.plan_status
+    </sql>
+
+    <sql id="Base_List_Plan2">
+        tb_project.`id`,tb_project.`project_name`,tb_project.`project_manager`,tb_project.`project_director`,tb_project.`project_unit`,tb_project.`project_contacts`,tb_project.`project_create`,tb_project.`project_create_user`,tb_project.`project_type`,tb_project.`project_sort`,
+        u.nickName as managerName,u1.nickName as directorName,tp.id plan_id,tp.plan_create_time,tp.plan_expect_enddate,tp.plan_name,tp.plan_status,pc.context_status
+    </sql>
+    <!-- 查询条件 -->
+    <sql id="Example_Where_Clause">
+        where 1=1
+        <trim suffixOverrides=",">
+            <if test="id != null">
+                and tb_project.`id` = #{id}
+            </if>
+            <if test="project_name != null and project_name != ''">
+                and tb_project.`project_name` like #{project_name}
+            </if>
+            <if test="project_manager != null">
+                and tb_project.`project_manager` = #{project_manager}
+            </if>
+            <if test="project_director != null">
+                and tb_project.`project_director` = #{project_director}
+            </if>
+            <if test="project_unit != null and project_unit != ''">
+                and tb_project.`project_unit` = #{project_unit}
+            </if>
+            <if test="project_contacts != null and project_contacts != ''">
+                and tb_project.`project_contacts` = #{project_contacts}
+            </if>
+            <if test="project_create != null and project_create != ''">
+                and tb_project.`project_create` = #{project_create}
+            </if>
+            <if test="project_create_user != null">
+                and tb_project.`project_create_user` = #{project_create_user}
+            </if>
+            <if test="project_type != null">
+                and tb_project.`project_type` = #{project_type}
+            </if>
+        </trim>
+    </sql>
+
+    <!-- 插入记录 -->
+    <insert id="add" parameterType="Object">
+        <selectKey resultType="java.lang.Integer" order="AFTER"
+                   keyProperty="id">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into
+        tb_project(id,project_name,project_manager,project_director,project_unit,project_contacts,project_create,project_create_user,project_type,project_sort)
+        values(#{id},#{project_name},#{project_manager},#{project_director},#{project_unit},#{project_contacts},#{project_create},#{project_create_user},#{project_type},#{project_sort})
+    </insert>
+
+    <!-- 根据id，修改记录 -->
+    <update id="update" parameterType="Object">
+		update tb_project set tb_project.`project_name`=#{project_name},tb_project.`project_manager`=#{project_manager},tb_project.`project_director`=#{project_director},tb_project.`project_unit`=#{project_unit},tb_project.`project_contacts`=#{project_contacts},tb_project.`project_create`=#{project_create},tb_project.`project_create_user`=#{project_create_user},tb_project.`project_type`=#{project_type},tb_project.`project_sort`=#{project_sort} where tb_project.`id`=#{id}
+	</update>
+
+    <!-- 修改记录，只修改只不为空的字段 -->
+    <update id="updateBySelective" parameterType="Object">
+        update tb_project set
+        <trim suffixOverrides=",">
+            <if test="project_name != null  and project_name != '' ">
+                tb_project.`project_name`=#{project_name},
+            </if>
+            <if test="project_manager != null  ">
+                tb_project.`project_manager`=#{project_manager},
+            </if>
+            <if test="project_director != null  ">
+                tb_project.`project_director`=#{project_director},
+            </if>
+            <if test="project_unit != null  and project_unit != '' ">
+                tb_project.`project_unit`=#{project_unit},
+            </if>
+            <if test="project_contacts != null  and project_contacts != '' ">
+                tb_project.`project_contacts`=#{project_contacts},
+            </if>
+            <if test="project_create != null  and project_create != '' ">
+                tb_project.`project_create`=#{project_create},
+            </if>
+            <if test="project_create_user != null  ">
+                tb_project.`project_create_user`=#{project_create_user},
+            </if>
+            <if test="project_type != null  ">
+                tb_project.`project_type`=#{project_type},
+            </if>
+            <if test="project_sort != null  ">
+                tb_project.`project_sort`=#{project_sort},
+            </if>
+        </trim>
+        where tb_project.`id`=#{id}
+    </update>
+
+    <!-- 删除记录 -->
+    <delete id="delete" parameterType="Object">
+		delete 	 from tb_project where tb_project.`id` = #{id}
+	</delete>
+
+    <!-- 根据id查询 项目管理 -->
+    <select id="queryById" resultMap="BaseResultMap" parameterType="Object">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_project
+        left join sys_user u on tb_project.project_manager = u.id
+        left join sys_user u1 on tb_project.project_director = u1.id
+        /*right JOIN tb_plan tp on tb_project.id=tp.plan_project_id*/
+        where tb_project.`id` = #{id}
+    </select>
+
+    <!-- 项目管理 列表总数 -->
+    <select id="queryByCount" resultType="java.lang.Integer"
+            parameterType="Object">
+        select count(1) from tb_project
+        <include refid="Example_Where_Clause"/>
+    </select>
+
+    <!-- 查询项目管理列表 -->
+    <select id="queryByList" resultMap="BaseResultMap"
+            parameterType="Object">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_project
+        left join sys_user u on tb_project.project_manager = u.id
+        left join sys_user u1 on tb_project.project_director = u1.id
+        <include refid="Example_Where_Clause"/>
+        order by project_sort asc
+        <if test="pager.orderCondition != null and pager.orderCondition != ''">
+            ${pager.orderCondition}
+        </if>
+        <if
+                test="pager.mysqlQueryCondition != null and pager.mysqlQueryCondition != ''">
+            ${pager.mysqlQueryCondition}
+        </if>
+    </select>
+
+
+    <select id="queryList" resultMap="BaseResultMap"
+            parameterType="Object">
+        select
+        <include refid="Base"/>
+        from tb_project
+        left join sys_user u on tb_project.project_manager = u.id
+        left join tb_plan p on tb_project.id=p.plan_project_id
+        left join tb_plan_context pc on p.plan_context_id=pc.id
+        <include refid="Example_Where_Clause"/>
+        order by project_sort asc
+        <if test="pager.orderCondition != null and pager.orderCondition != ''">
+            ${pager.orderCondition}
+        </if>
+        <if test="pager.mysqlQueryCondition != null and pager.mysqlQueryCondition != ''">
+            ${pager.mysqlQueryCondition}
+        </if>
+    </select>
+
+
+    <select id="queryListByUser" resultMap="BaseResultMap"
+            parameterType="java.lang.Integer">
+        select
+        <include refid="Base"/>
+        from tb_project
+        left join sys_user u on tb_project.project_manager = u.id
+        left join tb_plan p on tb_project.id=p.plan_project_id
+        left join tb_plan_context pc on p.plan_context_id=pc.id
+        where tb_project.id in (select project_id from tb_project_user where user_id=#{userid})
+        order by project_sort asc
+    </select>
+
+    <select id="queryListByPlanUserId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_List_Plan"/>
+        from tb_project
+        left join sys_user u on tb_project.project_manager = u.id
+        left join sys_user u1 on tb_project.project_director = u1.id
+        right JOIN tb_plan tp on tb_project.id=tp.plan_project_id
+        where tb_project.project_manager= #{userId}
+        <if test="keyword != null and keyword !=''">
+            and tb_project.project_name LIKE concat('%',#{keyword},'%')
+        </if>
+        <if test="planType !=null and planType !=''">
+            and tp.plan_status = #{planType}
+        </if>
+        <if test="planType==0">
+            and tp.plan_status = #{planType}
+        </if>
+        order by plan_create_year DESC ,plan_create_month DESC, plan_create_week DESC,tp.plan_create_time DESC,project_name
+        <if test="model.pager.orderCondition != null and model.pager.orderCondition != ''">
+            ${model.pager.orderCondition}
+        </if>
+        <if test="model.pager.mysqlQueryCondition != null and model.pager.mysqlQueryCondition != ''">
+            ${model.pager.mysqlQueryCondition}
+        </if>
+    </select>
+
+
+    <select id="queryListByPlan" resultMap="BaseResultMap">
+        select
+        <include refid="Base_List_Plan"/>
+        from tb_project
+        left join sys_user u on tb_project.project_manager = u.id
+        left join sys_user u1 on tb_project.project_director = u1.id
+        right JOIN tb_plan tp on tb_project.id=tp.plan_project_id
+        where 1=1
+        <if test="keyword != null and keyword !=''">
+            and tb_project.project_name LIKE concat('%',#{keyword},'%')
+        </if>
+        <if test="planType !=null and planType !=''">
+            and tp.plan_status = #{planType}
+        </if>
+        <if test="planType==0">
+            and tp.plan_status = #{planType}
+        </if>
+        order by plan_create_year DESC ,plan_create_month DESC, plan_create_week DESC,plan_create_time DESC,project_name,project_sort asc
+        <if test="model.pager.orderCondition != null and model.pager.orderCondition != ''">
+            ${model.pager.orderCondition}
+        </if>
+        <if test="model.pager.mysqlQueryCondition != null and model.pager.mysqlQueryCondition != ''">
+            ${model.pager.mysqlQueryCondition}
+        </if>
+    </select>
+
+
+    <select id="queryListByPlanNoLogin" resultMap="BaseResultMap">
+        select
+        <include refid="Base_List_Plan"/>
+        from tb_project
+        left join sys_user u on tb_project.project_manager = u.id
+        left join sys_user u1 on tb_project.project_director = u1.id
+        right JOIN tb_plan tp on tb_project.id=tp.plan_project_id
+        where plan_create_year=${year} AND plan_create_month=${month} AND plan_create_week=${weekOfMonth}
+   <!--     <if test="keyword != null and keyword !=''">
+            and tb_project.project_name LIKE concat('%',#{keyword},'%')
+        </if>
+        <if test="planType !=null and planType !=''">
+            and tp.plan_status = #{planType}
+        </if>
+        <if test="planType==0">
+            and tp.plan_status = #{planType}
+        </if>-->
+        order by plan_create_year DESC ,plan_create_month DESC, plan_create_week DESC,plan_create_time DESC,project_name,project_sort asc
+
+    </select>
+
+    <select id="queryCountByPlanUserId" resultType="integer">
+        SELECT COUNT(1) from tb_project
+        left join sys_user u on tb_project.project_manager = u.id
+        left join sys_user u1 on tb_project.project_director = u1.id
+        right JOIN tb_plan tp on tb_project.id=tp.plan_project_id
+        where tb_project.project_manager= #{userId}
+        <if test="keyword != null and keyword !=''">
+            and tb_project.project_name LIKE concat('%',#{keyword},'%')
+        </if>
+        <if test="planType !=null and planType !=''">
+            and tp.plan_status = #{planType}
+        </if>
+        <if test="planType==0">
+            and tp.plan_status = #{planType}
+        </if>
+    </select>
+
+    <select id="queryCountByPlan" resultType="integer">
+        SELECT COUNT(1) from tb_project
+        left join sys_user u on tb_project.project_manager = u.id
+        left join sys_user u1 on tb_project.project_director = u1.id
+        right JOIN tb_plan tp on tb_project.id=tp.plan_project_id
+        where 1=1
+        <if test="keyword != null and keyword !=''">
+            and tb_project.project_name LIKE concat('%',#{keyword},'%')
+        </if>
+        <if test="planType !=null and planType !=''">
+            and tp.plan_status = #{planType}
+        </if>
+        <if test="planType==0">
+            and tp.plan_status = #{planType}
+        </if>
+    </select>
+
+    <select id="queryCountByPlanNoLogin" resultType="integer">
+        SELECT COUNT(1) from tb_project
+        left join sys_user u on tb_project.project_manager = u.id
+        left join sys_user u1 on tb_project.project_director = u1.id
+        right JOIN tb_plan tp on tb_project.id=tp.plan_project_id
+        where plan_create_year=${year} AND plan_create_month=${month} AND plan_create_week=${weekOfMonth}
+
+    </select>
+
+    <!--周计划项目-->
+    <select id="queryProjectByUserId" resultMap="BaseResultMap">
+        SELECT
+	tp.id,tp.project_name
+FROM
+	tb_project tp
+LEFT JOIN sys_user su ON tp.project_manager = su.id
+WHERE
+	su.id = #{userId}
+    </select>
+
+    <select id="queryProjectByPlanId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_List_Plan"/>
+        from tb_project
+        left join sys_user u on tb_project.project_manager = u.id
+        left join sys_user u1 on tb_project.project_director = u1.id
+        right JOIN tb_plan tp on tb_project.id=tp.plan_project_id
+        where tp.id=#{planId}
+    </select>
+
+    <select id="selectProjectByUserId"  resultType="com.hbsd.bean.business.TbProject">
+       SELECT
+       id id,
+       project_name,
+       project_manager,
+       project_director,
+       project_unit
+       from tb_project
+       WHERE id in(SELECT project_id FROM tb_project_user WHERE user_id=#{userId})
+    </select>
+
+
+
+
+
+
+    <select id="selectLatestTbProject" resultMap="BaseResultMap">
+        select
+        <include refid="Base_List_Plan"/>,
+        tp.plan_create_year,
+        tp.plan_create_month,
+        tp.plan_create_week
+        from tb_project
+        left join sys_user u on tb_project.project_manager = u.id
+        left join sys_user u1 on tb_project.project_director = u1.id
+        right JOIN tb_plan tp on tb_project.id=tp.plan_project_id
+        where tp.plan_status = 1
+        ORDER BY plan_create_time DESC
+        limit 1
+    </select>
+</mapper>
